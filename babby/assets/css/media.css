@@ -1,0 +1,8 @@
+@media screen and (max-width: 768px) {
+	ul.ui-list-view li a h2{
+		width:100%;
+	}
+	ul.ui-list-view li a h2.show_all{
+		white-space: normal;
+	}
+}
