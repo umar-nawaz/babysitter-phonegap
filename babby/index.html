@@ -227,7 +227,46 @@
   </div>
 </div>
 
+
+
 <!-- Full Jobs Screen -->
+<div data-role="page" data-theme="b" id="alljobsList" class="full-blue">
+	<div data-role="header" data-tap-toggle="false" data-theme="b">
+		<a href="#" data-rel="back" class="global-menu ui-btn-left"><!--<i class="fa fa-2x fa-angle-left"></i>--></a>
+		<h1>All Jobs</h1>
+		<a href="#jobs-list-menu"  class="global-menu ui-btn-right"><i class="fa fa-2x fa-bars"></i></a>
+	</div>
+	<div data-role="content" class="ui-content edit-form-making">
+	   <div class="page-detail-header edit-form-making">
+	   <h2><a href="#" class="pull-right ui-btn-deep ui-link ui-btn ui-btn-inline ui-shadow ui-corner-all" onclick="app.addNewJob()"><i class="fa fa-plus"></i> Add New Job </a></h2>
+			<div id="all-jobs-in">
+			
+			
+			</div>
+			
+			
+		</div>
+	</div>
+ <div data-role="panel" data-position="right" data-position-fixed="true" data-display="push" id="jobs-list-menu" data-dismissible="true" data-swipe-close="true" data-theme="b">
+	<ul data-role="listview" data-theme="b" data-divider-theme="b">
+		<li data-icon="delete" data-corners="false" data-iconpos="right" data-theme="b" class="actions-header">
+			<a href="#" data-rel="close" class="ui-link-inherit">Quick Actions</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b">
+			<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b">
+		<a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b">
+			<a href="#" onclick="app.loadUserProfile()"><i class="fa fa-user"></i>Profile</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b">
+			<a href="#" class="log-out"><i class="fa fa-lock"></i>Logout</a>
+		</li>		
+  </ul>
+</div>
+</div>
 
 <div data-role="page" data-theme="b" id="jobsList" class="full-blue">
 	<div data-role="header" data-tap-toggle="false" data-theme="b">
@@ -250,7 +289,7 @@
 			<a href="#" data-rel="close" class="ui-link-inherit">Quick Actions</a>
 		</li>
 		<li data-corners="false" data-shadow="false" data-theme="b">
-			<a href="#" class="home"><i class="fa fa-home"></i>Home</a>
+			<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
 		</li>
 		<li data-corners="false" data-shadow="false" data-theme="b">
 		<a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
@@ -307,7 +346,7 @@
 			<a href="#" data-rel="close" class="ui-link-inherit">Quick Actions</a>
 		</li>
 		<li data-corners="false" data-shadow="false" data-theme="b">
-			<a href="#" class="home"><i class="fa fa-home"></i>Home</a>
+			<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
 		</li>
 		<li data-corners="false" data-shadow="false" data-theme="b">
 		<a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
@@ -331,11 +370,24 @@
 			</div>
 			
 			 <div data-role="content" class="ui-content edit-form-making">
+			  <div id="" class="anErrorOccure message error"> <i class="fa fa-exclamation"></i>
+				  <p></p>
+				</div>
+				 <div id="" class="Onsuccess message success"> <i class="fa fa-exclamation"></i>
+				  <p></p>
+				</div>
 				<div class="page-detail-header edit-form-making">
 					<div class="ui-grid-a breakpoint">
-						<div id="jobsdetail-in">
+						<div id="jobsdetail-in" class="hide-edit ">
 						
 						</div>
+						<div id="jobs-apply" class="hide-by-default">
+						
+						</div>
+						<div id="jobsdetail-in-edit" class="hide-save">
+			
+			
+			            </div>
 						<div id="attendees" class="jobs-in">
 							
 						</div>
@@ -349,7 +401,7 @@
 						<a href="#" data-rel="close" class="ui-link-inherit">Quick Actions</a>
 					</li>
 					<li data-corners="false" data-shadow="false" data-theme="b">
-						<a href="#" class="home"><i class="fa fa-home"></i>Home</a>
+						<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
 					</li>
 					<li data-corners="false" data-shadow="false" data-theme="b">
                     <a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
@@ -397,7 +449,7 @@
 						<a href="#" data-rel="close" class="ui-link-inherit">Quick Actions</a>
 					</li>
 					<li data-corners="false" data-shadow="false" data-theme="b">
-						<a href="#" class="home"><i class="fa fa-home"></i>Home</a>
+						<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
 					</li>
 					<li data-corners="false" data-shadow="false" data-theme="b">
                     <a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>

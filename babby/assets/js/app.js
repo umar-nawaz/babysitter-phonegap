@@ -7,6 +7,7 @@ app = {
 		homePage : '#homePage',
 		dashboard : '#dashboard',
 		jobsPage : '#jobsList',
+	    alljobsPage : '#alljobsList',
 		addjob   : '#jobsAdd',
 		singlejobsDetail : '#jobsDetail',
 		profile : '#profile',
@@ -429,6 +430,50 @@ app = {
 		hackHeight = $(elem).find('.ui-panel-wrapper').height();
 		$(elem).find('.ui-panel').height(hackHeight);
 	},
+	alljobsList : function(){
+			$.mobile.loading("show", {
+			text : "",
+			textVisible : false,
+			theme : "b",
+			html : ""
+		});
+		
+		$('.ui-panel-dismiss').show();
+			$.ajax({
+				url :  app.config.baseURL +'jobs',
+				xhrFields : {
+					withCredentials : true
+				}
+			}).done(function (response) {
+				$.mobile.loading("hide");
+				$('.ui-panel-dismiss').hide();
+				
+				var data = response._embedded;
+				template = '<script id="jobsallHBS" type="x-handlebars-template">'+	
+					'{{#each this}}'+
+						'<div class="ui-body ui-body-a ui-corner-all" style="margin-bottom: 13px;">'+
+								'<h2><i class="fa fa-hand-o-right"></i> {{name}}</h2>'+
+								'<div class="ui-corner-all">'+
+								'<h5 class="show_all"><i class="fa fa-clock-o"></i> Posted on: <span class="pull-right"> {{date_created}}</span></h5>'+
+								'</div>'+
+								'<a href="#"  data-role="button" data-inline="true" class="ui-btn-deep ui-link ui-btn ui-btn-inline ui-shadow ui-corner-all" onClick="app.intializeJobDetail({{id}} , 1);" data-id="{{id}}" role="button" style="width: 90%;"><i class="fa fa-paper-plane"></i> View Job Details</a>'+
+					   '</div>'+
+				   '{{/each}}'+
+			'</script> ';
+				app.renderTemplates(template, '#all-jobs-in', data);
+				$.mobile.navigate(app.config.alljobsPage);
+			}).fail(function(response){
+				$.mobile.loading("hide");
+				$('.ui-panel-dismiss').hide();
+				$('.anErrorOccure').show();
+				$(".anErrorOccure").delay(3000).fadeOut("slow");
+				$('.anErrorOccure p').html("Failed to load.");
+				
+			});
+		
+
+		
+	},
 	jobsList : function () {
 		
 		$.mobile.loading("show", {
@@ -456,7 +501,7 @@ app = {
 								'<div class="ui-corner-all">'+
 								'<h5 class="show_all"><i class="fa fa-clock-o"></i> Posted on: <span class="pull-right"> {{date_created}}</span></h5>'+
 								'</div>'+
-								'<a href="#"  data-role="button" data-inline="true" class="ui-btn-deep ui-link ui-btn ui-btn-inline ui-shadow ui-corner-all" onClick="app.intializeJobDetail({{id}});" data-id="{{id}}" role="button" style="width: 90%;"><i class="fa fa-paper-plane"></i> View Job Details</a>'+
+								'<a href="#"  data-role="button" data-inline="true" class="ui-btn-deep ui-link ui-btn ui-btn-inline ui-shadow ui-corner-all" onClick="app.intializeJobDetail({{id}} , 2);" data-id="{{id}}" role="button" style="width: 90%;"><i class="fa fa-paper-plane"></i> View Job Details</a>'+
 					   '</div>'+
 				   '{{/each}}'+
 			'</script> ';
@@ -474,6 +519,102 @@ app = {
 
 		$('#pagetitle').text('Full Jobs');
 	},
+	jobApply : function(this_job_id){
+		apply_job_username = $(app.config.singlejobsDetail).find('#AJ-username').val();
+		if(! apply_job_username ){
+		$("html, body").animate({ scrollTop: "0" });
+		$('.anErrorOccure').show();
+		$('.anErrorOccure p').html("Please enter your name.");
+	    $(".anErrorOccure").delay(3000).fadeOut("slow");
+		$('.ui-panel-dismiss').hide();
+		return false;
+		}
+		apply_job_name = $(app.config.singlejobsDetail).find('#AJ-name').val();
+		if(! apply_job_name ){
+		$("html, body").animate({ scrollTop: "0" });
+		$('.anErrorOccure').show();
+		$('.anErrorOccure p').html("Application Tag Line/tile is missing.");
+	    $(".anErrorOccure").delay(3000).fadeOut("slow");
+		$('.ui-panel-dismiss').hide();
+		return false;
+		}
+	
+		apply_job_discription = $(app.config.singlejobsDetail).find('#AJ-description').val();
+		if(! apply_job_discription ){
+		$("html, body").animate({ scrollTop: "0" });
+		$('.anErrorOccure').show();
+		$('.anErrorOccure p').html("Details about you could not be empty.");
+	    $(".anErrorOccure").delay(3000).fadeOut("slow");
+		$('.ui-panel-dismiss').hide();
+		return false;
+		}
+		
+		$.mobile.loading("show", {
+			text : "",
+			textVisible : false,
+			theme : "b",
+			html : ""
+		});
+		
+		$('.ui-panel-dismiss').show();
+		$.ajax({
+			type : 'POST',
+			url : app.config.baseURL + 'bids',
+			xhrFields : {
+				withCredentials : true
+			}, 
+			statusCode : {
+				401 : function (response) {
+					$.mobile.navigate(app.config.singlejobsDetail);
+					var data = JSON.parse(response.responseText);
+					app.config.authdata = data.Message;
+					$.mobile.loading("hide");
+					$('.ui-panel-dismiss').hide();
+					$(app.config.singlejobsDetail).find('.anErrorOccure').html("");
+					$(app.config.singlejobsDetail).find('.anErrorOccure').show();
+					$(app.config.singlejobsDetail).find('.anErrorOccure').html(data.Message);
+
+				},
+			},
+			contentType : 'application/json',
+			 data : JSON.stringify({
+				name: apply_job_name ,
+				description:apply_job_discription ,
+				applicant_name:apply_job_username ,
+				job_id: this_job_id,
+				user_id: app.getCookie('userId')
+				
+				
+			}) 
+		}).success(function (data) {
+			if(data.status){
+			$.mobile.loading("hide");
+			$('.ui-panel-dismiss').hide();
+			$('.Onsuccess').show();
+			$(".Onsuccess").delay(3000).fadeOut("slow");
+			$('.Onsuccess p').html("Application submitted Successfully");
+			$('.hide-by-default').hide();
+			setTimeout(function(){
+				
+				app.jobsDetails();
+				
+			},1000);
+			}
+			else{
+				
+			}
+		}).fail(function (jqXHR, textStatus, errorThrown, response, responseText) {
+		});
+	},
+	jobApplypage : function(id){
+		$('.hide-by-default').show();
+		
+		
+	},
+	cancelapply : function(){
+		$('.hide-by-default').hide();
+	}
+	,
 	jobsDetails : function () {
 		$.mobile.loading("show", {
 			text : "",
@@ -494,12 +635,67 @@ app = {
 				template = '<script id="jobsDetailHBS" type="x-handlebars-template" >'+	
 							'<div class="marginLeft">'+
 									'<div class="ui-body ui-body-a ui-corner-all">'+
-										'<h1><i class="fa fa-fax"></i> {{name}}<a href="#" class="pull-right" style="margin-left:10px;" onclick="app.showEditablesJobs()"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp; <a href="#" class="pull-right" onclick="app.deleteJobb()"><i class="fa fa-times"></i></a></h1>'+
+										'<h1><i class="fa fa-fax"></i> {{name}} </h1>'+
 										'<div class="ui-corner-all" > <h5><i class="fa fa-clock-o"></i> Posted Date: <span class="pull-right"> {{date_created}}<span class="pull-right"> </h5></div>'+
 										'<div class="ui-corner-all" > <h5><i class="fa fa-list-alt"></i> Description: <span class="pull-right"> {{description}}</span></h5></div>'+
+										'<button type="button"  data-indivne="false" onclick="app.jobApplypage({{id}})" class="col-1 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all pull-right"><i class="lIcon fa fa-check"></i>Apply Now</button>'+
 									'</div>'+
 							'</div>'+
 							'</script>';
+				 if(app.getCookie('jobId_trace') == 1){
+					 template3 = '<script id="applyjobseHBS" type="x-handlebars-template"> <h1>Apply for this Job</h1>'+		 
+										   '<form id="editform">'+
+												'<div class="listview" data-inset="true" >'+
+													'<div class="fieldcontain">'+
+														 '<input type="text" class="input-lovely" id="AJ-username" data-clear-btn="true" placeholder="Your Name">'+
+													'</div>'+
+													'<div class="fieldcontain">'+
+														 '<input type="text" class="input-lovely" id="AJ-name" data-clear-btn="true" placeholder="Tag line">'+
+													'</div>'+
+														'<div class="fieldcontain">'+
+														 '<input type="text" class="input-lovely" id="AJ-description" data-clear-btn="true" placeholder="Some Words about Yourself">'+
+													'</div>'+
+													'<div class="actions">'+
+														 '<button type="button"  data-indivne="false" onclick="app.jobApply({{id}})" class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-check"></i>Apply Now</button>'+
+														 '<button type="button"  data-inline="false" onclick="app.cancelapply()"   class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-times"></i>Cancel</button>'+
+													
+													'</div>'+
+												'</div>'+
+											'</form>'+
+										'</script>';
+							app.renderTemplates(template3, '#jobs-apply', data);
+				 }
+				 if(app.getCookie('jobId_trace') == 2){
+					 template = '<script id="jobsDetailHBS" type="x-handlebars-template" >'+	
+							'<div class="marginLeft">'+
+									'<div class="ui-body ui-body-a ui-corner-all">'+
+										'<h1><i class="fa fa-fax"></i> {{name}}<a href="#" class="pull-right small-icons" style="margin-left:10px;" onclick="app.showEditables()"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp; <a href="#" class="pull-right small-icons" onclick="app.deleteJobb({{id}})"><i class="fa fa-times"></i></a></h1>'+
+										'<div class="ui-corner-all" > <h5><i class="fa fa-clock-o"></i> Posted Date: <span class="pull-right"> {{date_created}}<span class="pull-right"> </h5></div>'+
+										'<div class="ui-corner-all" > <h5><i class="fa fa-list-alt"></i> Description: <span class="pull-right"> {{description}}</span></h5></div>'+
+									
+									'</div>'+
+							'</div>'+
+							'</script>';
+							template2 = '<script id="editprofileHBS" type="x-handlebars-template"> <h1>Update Job Details</h1>'+		 
+										   '<form id="editform">'+
+												'<div class="listview" data-inset="true" >'+
+													'<div class="fieldcontain">'+
+														 '<input type="text" class="input-lovely" id="EJ-name" data-clear-btn="true" value="{{name}}">'+
+													'</div>'+
+														'<div class="fieldcontain">'+
+														 '<input type="text" class="input-lovely" id="EJ-description" data-clear-btn="true" value="{{description}}">'+
+													'</div>'+
+													'<div class="actions">'+
+														 '<button type="button"  data-indivne="false" onclick="app.saveJobsEditables()" class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-check"></i>Save Changes</button>'+
+														 '<button type="button"  data-inline="false" onclick="app.cancelEditables()"   class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-times"></i>Cancel</button>'+
+													
+													'</div>'+
+												'</div>'+
+											'</form>'+
+										'</script>';
+							app.renderTemplates(template2, '#jobsdetail-in-edit', data);
+				 }
+				
 				app.renderTemplates(template, '#jobsdetail-in', data);
 				if(data.hasOwnProperty("hasMany")){
 					template2 = '<script id="jobsDetailattendees" type="x-handlebars-template" >	'+	
@@ -541,6 +737,57 @@ app = {
 
 		$('#pagetitle').text('Single Job Details');
 	},
+	deleteJobb : function(job_id){
+		$.mobile.loading("show", {
+			text : "",
+			textVisible : false,
+			theme : "b",
+			html : ""
+		});
+		
+		$('.ui-panel-dismiss').show();
+		$.ajax({
+			type : 'DELETE',
+			url : app.config.baseURL + 'jobs/'  + job_id,
+			xhrFields : {
+				withCredentials : true
+			}, 
+			statusCode : {
+				401 : function (response) {
+					$.mobile.navigate(app.config.singlejobsDetail);
+					var data = JSON.parse(response.responseText);
+					app.config.authdata = data.Message;
+					$.mobile.loading("hide");
+					$('.ui-panel-dismiss').hide();
+					$(app.config.singlejobsDetail).find('.anErrorOccure').html("");
+					$(app.config.singlejobsDetail).find('.anErrorOccure').show();
+					$(app.config.singlejobsDetail).find('.anErrorOccure').html(data.Message);
+
+				},
+			},
+			contentType : 'application/json',
+			 data : JSON.stringify({
+				
+				
+				
+			}) 
+		}).success(function (data) {
+			$.mobile.loading("hide");
+			$('.ui-panel-dismiss').hide();
+			$('.Onsuccess').show();
+			$(".Onsuccess").delay(3000).fadeOut("slow");
+			$('.Onsuccess p').html("Job deleted Successfully");
+			setTimeout(function(){
+				app.jobsList();
+				$('.hide-edit').show();
+	            $('.hide-save').hide();
+			},3000);
+			
+		}).fail(function (jqXHR, textStatus, errorThrown, response, responseText) {
+		});
+		
+	}
+	,
 	userProfile : function (userId) {
 		$.mobile.loading("show", {
 			text : "",
@@ -702,6 +949,86 @@ app = {
 			};       
 			FR.readAsDataURL( this.files[0] );
 		}
+	  
+	},
+		saveJobsEditables  : function(){
+		my_job_name = $(app.config.singlejobsDetail).find('#EJ-name').val();
+		if(! my_job_name ){
+		$("html, body").animate({ scrollTop: "0" });
+		$('.anErrorOccure').show();
+		$('.anErrorOccure p').html("Job title could not be empty.");
+	    $(".anErrorOccure").delay(3000).fadeOut("slow");
+		$('.ui-panel-dismiss').hide();
+		return false;
+		}
+	
+		my_job_discription = $(app.config.singlejobsDetail).find('#EJ-description').val();
+		if(! my_job_discription ){
+		$("html, body").animate({ scrollTop: "0" });
+		$('.anErrorOccure').show();
+		$('.anErrorOccure p').html("Job Description could not be empty.");
+	    $(".anErrorOccure").delay(3000).fadeOut("slow");
+		$('.ui-panel-dismiss').hide();
+		return false;
+		}
+		$.mobile.loading("show", {
+			text : "",
+			textVisible : false,
+			theme : "b",
+			html : ""
+		});
+		
+		$('.ui-panel-dismiss').show();
+		$.ajax({
+			type : 'PATCH',
+			url : app.config.baseURL + 'jobs/'  +  app.getCookie('jobId_detail'),
+			xhrFields : {
+				withCredentials : true
+			}, 
+			statusCode : {
+				401 : function (response) {
+					$.mobile.navigate(app.config.profile);
+					var data = JSON.parse(response.responseText);
+					app.config.authdata = data.Message;
+					$.mobile.loading("hide");
+					$('.ui-panel-dismiss').hide();
+					$(app.config.profile).find('.anErrorOccure').html("");
+					$(app.config.profile).find('.anErrorOccure').show();
+					$(app.config.profile).find('.anErrorOccure').html(data.Message);
+
+				},
+			},
+			contentType : 'application/json',
+			 data : JSON.stringify({
+				
+				name               : my_job_name ,
+				description : my_job_discription ,
+				
+			}) 
+		}).success(function (data) {
+			if(data.status){
+				
+			$.mobile.loading("hide");
+			$('.ui-panel-dismiss').hide();
+			
+			$('.Onsuccess').show();
+			$(".Onsuccess").delay(3000).fadeOut("slow");
+			$('.Onsuccess p').html("Job Information Updated Successfully");
+			setTimeout(function(){
+				app.jobsDetails();
+				$('.hide-edit').show();
+	            $('.hide-save').hide();
+			},3000);
+			}
+			else{
+			$('.anErrorOccure').show();
+			$(".anErrorOccure").delay(3000).fadeOut("slow");
+			$('.anErrorOccure p').html(data.message);
+			$.mobile.loading("hide");
+			$('.ui-panel-dismiss').hide();
+			}
+		}).fail(function (jqXHR, textStatus, errorThrown, response, responseText) {
+		});
 	  
 	},
 	saveEditables  : function(){
@@ -873,9 +1200,10 @@ app = {
 			}
 		}
 	},
-	intializeJobDetail: function(id){
+	intializeJobDetail: function(id, trace){
 		
-	 app.setCookie('jobId_detail',id , '30');
+	 app.setCookie('jobId_detail', id , '30');
+	 app.setCookie('jobId_trace', trace , '30');
 	 //app.jobsDetails();
 	 $.mobile.navigate(app.config.singlejobsDetail);
 	 
@@ -895,6 +1223,10 @@ app = {
 	},
 	myJobs: function(){
 		$.mobile.navigate(app.config.jobsPage);
+	},
+	allJobs: function(){
+		$.mobile.navigate(app.config.alljobsPage);
+		
 	},
 	loadUserProfile: function(){
 			$.mobile.navigate(app.config.profile);
@@ -1141,6 +1473,11 @@ $(document).on('pagebeforeshow', app.config.loginPage, function () {
 
 $(document).on('pagebeforeshow', app.config.jobsPage, function () {
 	app.jobsList();
+	
+});
+$(document).on('pagebeforeshow', app.config.alljobsPage, function () {
+	app.alljobsList();
+	
 	
 });
 $(document).on('pagebeforeshow', app.config.singlejobsDetail, function () {

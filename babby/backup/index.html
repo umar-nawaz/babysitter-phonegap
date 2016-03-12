@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<!--<html manifest="cache.manifest">-->
+<html>
+<head>
+<meta charset="utf-8">
+<title id="pagetitle">Baby Sitter Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<!-- Roboto - https://www.google.com/fonts 
+<link href="//fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,900italic,900,100italic,100" rel="stylesheet" type="text/css">
+-->
+<!-- FontAwesome - //fortawesome.github.io/Font-Awesome/ -->
+<link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css" />
+
+<!-- jQueryMobileCSS - original without styling -->
+<link rel="stylesheet" href="assets/css/jquery.mobile-1.4.5.min.css" type="text/css" />
+
+<!-- nativeDroid core CSS -->
+<link rel="stylesheet" href="assets/css/jquerymobile.nativedroid.css" type="text/css" />
+
+<!-- nativeDroid: Light/Dark -->
+<link rel="stylesheet" href="assets/css/jquerymobile.nativedroid.light.css" type="text/css" id='jQMnDTheme' />
+
+<!-- nativeDroid: Color Schemes -->
+<link rel="stylesheet" href="assets/css/jquerymobile.nativedroid.color.blue.css" type="text/css" id='jQMnDColor' />
+
+<!-- Babby Sitter Custom StyleSheet -->
+<link rel="stylesheet" href="assets/css/app.css" type="text/css" id='custom' />
+
+<!-- Babby Sitter Custom Pages -->
+<link rel="stylesheet" href="assets/css/pages.css" type="text/css" id='custom-pages' />
+
+<!-- Owl Carousel Assets -->
+<!--<link href="assets/css/owl.carousel.css" rel="stylesheet">
+<link href="assets/css/owl.theme.css" rel="stylesheet">
+<link href="assets/css/owl.transitions.css" rel="stylesheet">-->
+
+<!-- ISF Media Queries Pages -->
+<link rel="stylesheet" href="assets/css/media.css" type="text/css" id='custom-pages' />
+<script src="assets/js/libs/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="assets/js/libs/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+
+<!--Babby Sitter Splash Screen -->
+
+<div data-role="page" data-theme='b' id="splash"> 
+  <!--<div id="splash_header"></div>-->
+  <div id="congress_year"> <img src="assets/images/logo.jpeg" /> </div>
+  <!--<div id="sponsors_strip"> 
+    <img src="assets/images/sponsors.png" />
+  </div>
+  <div id="splash_footer"> <img src="assets/images/footer.png" /> </div>--> 
+</div>
+
+<!--Sign up -->
+<div data-role="page" data-theme='b' id="signup">
+  <div data-role="header" data-theme="b"> <a href="#" data-rel="back" class="global-menu ui-btn-left hide"><i class="fa fa-2x fa-angle-left"></i></a>
+    <h1>Sign Up</h1>
+ </div>
+	
+ <div id="signupFailed" class="anErrorOccure message error"> <i class="fa fa-exclamation"></i>
+      <p></p>
+    </div>
+  <!--<div id="main_logo" class="text-center"> <img src="assets/images/logo.png" style="width: 10%;"/> </div>-->
+  <div data-role="content" id="pageContent">
+    <form name="login">
+      <ul data-role="listview" data-inset="true">
+        <li data-role="fieldcontain">
+		<label for="file-1" >
+		 <div class="main-image">
+            <div id="profile-image"> <img id="dp" src="assets/images/no-user.jpg" height="100" width="100"> <span class="text-content"><span>Upload Image</span></span> </div>
+          </div>
+		  </label>
+		  <label for="file-1" class="custom-file-upload">
+			<i class="fa fa-cloud-upload"></i> Browse Image
+		</label>
+          <input type="file" data-clear-btn="false" name="file-1" id="file-1" accept="image/*" class="ui-fixed-hidden">
+        </li>
+        <input type="hidden" id="imageVal">
+        <li data-role="fieldcontain">
+          <input type="text" id="name" data-clear-btn="true" placeholder="name">
+        </li>
+		 <li data-role="fieldcontain">
+          <input type="text" id="familyname" data-clear-btn="true" placeholder="Family/Sitter Name">
+        </li>
+        <li data-role="fieldcontain">
+          <input type="email" id="email" data-clear-btn="true" placeholder="Email Address">
+        </li>
+        <li data-role="fieldcontain">
+          <input type="password" id="psd" data-clear-btn="true" placeholder="Password">
+        </li>
+        <li data-role="fieldcontain">
+          <input type="password" id="cfm_psd" data-clear-btn="true" placeholder="Confirm Password">
+        </li>
+        <li data-role="fieldcontain">
+          <input type="date" data-clear-btn="false" name="date-1" id="date-1" value="">
+        </li>
+        <li class="ui-field-contain ui-grid-a"> Gender
+          <fieldset data-role="controlgroup" class="ui-grid-a">
+            <input type="radio" id="Male" value=" Male" name="radio-group-1" />
+            <label for="Male">Male</label>
+            <input type="radio" id="Female" value=" Female" name="radio-group-1" />
+            <label for="Female">Female</label>
+          </fieldset>
+        </li>
+        <li class="ui-field-contain"> Type
+          <fieldset data-role="controlgroup">
+            <input type="radio" id="Family" value="Family" name="radio-group-2" />
+            <label for="Family">Family</label>
+            <input type="radio" id="Sitter" value="Sitter" name="radio-group-2" />
+            <label for="Sitter">Sitter</label>
+          </fieldset>
+        </li>
+        <li>
+          <button type="button" data-inline='false' id="signup-btn" class="ui-btn-deep ui-btn-active"><i class='lIcon fa fa-check'></i>Sign Up</button>
+        </li>
+        <li class="blocker">
+          <div class="ui-grid-b breakpoint">
+            <div class="ui-block-a">
+              <div class="marginRight"> 
+              </div>
+            </div>
+            <div class="ui-block-c">
+              <div class="marginRight"> 
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="blocker">
+          <div class="ui-grid-b breakpoint">
+            <div class="ui-block-a">
+              <div class="marginRight"> </div>
+            </div>
+            <div class="ui-block-b">
+              <div class="marginRight text-center"> <span>Already have account? <a id="login_hook">Click Here</a></span> </div>
+            </div>
+            <div class="ui-block-c">
+              <div class="marginRight text-center"></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </form>
+  </div>
+</div>
+
+<!-- Login Screen -->
+
+<div data-role="page" data-theme='b' id="login"> 
+  <!--<div data-role="header" data-tap-toggle="false" data-theme='b'>
+    <h1>Login</h1>
+  </div>-->
+  <div id="loginFailed" class="anErrorOccure message error"> <i class="fa fa-exclamation"></i>
+      <p></p>
+    </div>
+  <div id="main_logo" class="text-center"> <img src="assets/images/logo.png"/> </div>
+  <div data-role="content" id="pageContent">
+    <form name="login">
+      <ul data-role="listview" data-inset="true">
+        <li data-role="fieldcontain">
+          <input type="email" id="email" data-clear-btn="true" placeholder="Email Address">
+        </li>
+        <li data-role="fieldcontain">
+          <input type="password" id="otc" data-clear-btn="true" placeholder="Password">
+        </li>
+        <li>
+          <button type="button" data-inline='false' id="login-btn" class="ui-btn-deep ui-btn-active"><i class='lIcon fa fa-check'></i>Login</button>
+        </li>
+        <li class="blocker">
+          <div class="ui-grid-b breakpoint">
+            <div class="ui-block-a">
+              <div class="marginRight"> 
+                <!--<button type="button" class="ui-btn-red" onClick = "window.open('https://www.securityforum.org/myaccount/resetpin/','_blank');">Forgot My Password</button>--> 
+              </div>
+            </div>
+            <div class="ui-block-b">
+              <div class="marginRight text-center"> <span><a id="forget">Forgot Password?</a></span> </div>
+            </div>
+            <div class="ui-block-c">
+              <div class="marginRight"> 
+                <!--<button type="button" class="ui-btn-red" onClick = "window.open('https://www.securityforum.org/myaccount/resetpin/','_blank');">Forgot My Password</button>--> 
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="blocker">
+          <div class="ui-grid-b breakpoint">
+            <div class="ui-block-a">
+              <div class="marginRight"> </div>
+            </div>
+            <div class="ui-block-b">
+              <div class="marginRight text-center"> <span>Don't have account? <a id="register">Click Here</a></span> </div>
+            </div>
+            <div class="ui-block-c">
+              <div class="marginRight text-center"></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </form>
+  </div>
+</div>
+
+<!-- Forgot Password -->
+
+<div data-role="page" data-theme='b' id="forgot">
+  <div id="main_logo" class="text-center"> <img src="assets/images/logo.png"/> </div>
+  <div data-role="content" id="pageContent">
+    <div id="loginFailed" class="anErrorOccure message error"> <i class="fa fa-exclamation"></i>
+      <p></p>
+    </div>
+    <form name="forgot">
+      <ul data-role="listview" data-inset="true">
+        <li data-role="fieldcontain">
+          <input type="email" id="email" data-clear-btn="true" placeholder="Email Address">
+        </li>
+        <li>
+          <button type="button" data-inline='false' id="forgot-send" class="ui-btn-deep ui-btn-active"><i class='lIcon fa fa-check'></i>Send</button>
+        </li>
+      </ul>
+    </form>
+  </div>
+</div>
+
+<!-- Full Jobs Screen -->
+
+<div data-role="page" data-theme="b" id="jobsList">
+  <div data-role="header" data-theme="b"><!-- <a href="#" data-rel="back" class="global-menu ui-btn-left hide"><i class="fa fa-2x fa-angle-left"></i></a>-->
+    <h1>All Jobs</h1>
+    <a href="#events-nav-panel" id="logout" class="global-menu ui-btn-right"><i class="fa fa-2x fa-bars"></i></a> </div>
+  <div data-role="content" id="pageContent">
+    <div id="loginFailed" class="anErrorOccure message error"><i class="fa fa-exclamation"></i>
+      <p></p>
+    </div>
+    <script id="jobsHBS" type="x-handlebars-template">	
+                {{#each this}}
+                    <div class="ui-body ui-body-a ui-corner-all">
+                            <h3>Job Title: {{name}}</h3>
+                            <h6 class="show_all"><i class="fa fa-clock-o"></i><span>Job Date: {{date_created}}</span></h6>
+							<a href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn-sea ui-link ui-btn ui-btn-inline ui-shadow ui-corner-all" onClick="app.jobsDetails({{id}});" role="button"><i class="fa fa-check"></i> See More</a>
+                   </div>
+               {{/each}}
+            
+        </script> 
+  </div>
+  <div data-role="panel" data-position="right" data-display="push" id="events-nav-panel" data-dismissible="true" data-swipe-close="true" data-theme="b">
+    <ul data-role="listview" data-theme="b" data-divider-theme="b">
+      <li data-icon="delete" data-corners="false" data-iconpos="right" data-theme="b" class="actions-header"> <a href="#" data-rel="close" class="ui-link-inherit">Quick Actions</a> </li>
+      <li data-corners="false" data-shadow="false" data-theme="b"> <a href="#" class="home"><i class="fa fa-home"></i>Home</a> </li>
+      <li data-corners="false" data-shadow="false" data-theme="b"> <a href="#" class="my-jobs"><i class="fa fa-history"></i>My Jobs</a> </li>
+      <li data-corners="false" data-shadow="false" data-theme="b"> <a href="#" class="profile-settings"><i class="fa fa-user"></i>Profile</a> </li>
+      <li data-corners="false" data-shadow="false" data-theme="b"> <a href="#" class="log-out"><i class="fa fa-lock"></i>Logout</a> </li>
+    </ul>
+  </div>
+</div>
+
+
+<div data-role="page" data-theme='b' id="jobsDetail" class="full-blue"> 
+<script id="jobsDetailHBS" type="x-handlebars-template" >
+
+			<div data-role="header" data-tap-toggle="false" data-theme="b">
+				<a href="#" data-rel="back" class="global-menu ui-btn-left"><i class="fa fa-2x fa-angle-left"></i></a>
+				<h1>Job Details</h1>
+				<a href="#attendee-detail-nav-panel" id="logout" class="global-menu ui-btn-right"><i class="fa fa-2x fa-bars"></i></a>
+			</div>
+			<div data-role="content" id="pageContent" class="ui-content">
+				        <div id="loginFailed" class="anErrorOccure message error"><i class="fa fa-exclamation"></i><p></p></div>
+                                        <div id="ads-rotator" class="owl-carousel ads-rotator"></div>        
+				 	
+				<div class="page-detail-header" id="{{id}}">
+					<div class="ui-grid-a breakpoint">
+						<div class="ui-block-a1">
+							<div class="marginRight">
+								<div class="page-icon"><img src="{{#if user_image}}{{user_image}}{{else}}assets/images/user_placeholder.png{{/if}}" /></div>
+							</div>
+						</div>
+						<div class="ui-block-b2">
+							<div class="marginLeft">
+								<div class="page-detail event">
+									<div class="event-summery clearfix">
+										<h1>{{FirstName}}&nbsp;{{LastName}}</h1>
+										<h2><a href="#"><i class="fa fa-university"></i>{{Company}}</a></h2>
+									</div>
+									<div class="attendee-contacts clearfix">
+										{{#if Email}}<h3><i class="fa fa-envelope"></i>{{Email}}</h3>{{/if}}
+										{{#if Mobile}}<h3><i class="fa fa-phone"></i>{{Mobile}}</h3>{{/if}}
+									</div>
+								</div>
+								<div class="attendee-actions">
+									<div data-role="fieldcontain" class="flip-container">
+										<label for="fav-attendee-detail" data-inset="true">Favourites:</label>
+										<select name="fav-attendee-detail" id="fav-attendee-detail" data-value="{{UserID}}" data-role="flipswitch">
+											<option value="off" {{#if Starred}}selected{{/if}}>Off</option>
+											<option value="on" {{#if Starred}}selected{{/if}}>On</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			<div data-role="panel" data-position="right" data-position-fixed="true" data-display="push" id="attendee-detail-nav-panel" data-dismissible="true" data-swipe-close="true" data-theme="b">
+				<ul data-role="listview" data-theme="b" data-divider-theme="b">
+					<li data-icon="delete" data-corners="false" data-iconpos="right" data-theme="b" class="actions-header">
+						<a href="#" data-rel="close" class="ui-link-inherit">Quick Actions</a>
+					</li>
+					<li data-corners="false" data-shadow="false" data-theme="b">
+						<a href="#" class="home"><i class="fa fa-home"></i>Home</a>
+					</li>
+					<li data-corners="false" data-shadow="false" data-theme="b">
+                    <a href="#" class="my-jobs"><i class="fa fa-history"></i>My Jobs</a>
+					</li>
+					<li data-corners="false" data-shadow="false" data-theme="b">
+						<a href="#" class="profile-settings"><i class="fa fa-user"></i>Profile</a>
+					</li>
+					<li data-corners="false" data-shadow="false" data-theme="b">
+						<a href="#" class="log-out"><i class="fa fa-lock"></i>Logout</a>
+					</li>
+					
+				</ul>
+			</div>
+		</script>
+</div>
+<div data-role="page" data-theme='b' id="profile" class="full-blue"> 
+
+
+			<div data-role="header" data-tap-toggle="false" data-theme="b">
+				<a href="#" data-rel="back" class="global-menu ui-btn-left"><i class="fa fa-2x fa-angle-left"></i></a>
+				<h1>User Profile</h1>
+				<a href="#attendee-detail-nav-panel" id="logout" class="global-menu ui-btn-right"><i class="fa fa-2x fa-bars"></i></a>
+			</div>
+			<script id="profileHBS" type="x-handlebars-template" >
+			<div data-role="content" id="pageContent" class="ui-content">
+				        <div id="loginFailed" class="anErrorOccure message error"><i class="fa fa-exclamation"></i><p></p></div>
+                                        <div id="ads-rotator" class="owl-carousel ads-rotator"></div>        
+				<div class="page-detail-header" id="{{id}}">
+					<div class="ui-grid-a breakpoint">
+						<div class="ui-block-a1">
+							<div class="marginRight">
+								<div class="page-icon"><img src="{{#if user_image}}{{user_image}}{{else}}assets/images/user_placeholder.png{{/if}}" /></div>
+							</div>
+						</div>
+						<div class="ui-block-b2">
+							<div class="marginLeft">
+								<div class="page-detail event">
+									<div class="event-summery clearfix">
+										<h1>{{name}}</h1>
+										<h2><a href="#"><i class="fa fa-user"></i>{{gender}}</a></h2>
+										<h2><a href="#"><i class="fa fa-history"></i>{{date_of_birth}}</a></h2>
+										<h2><a href="#"><i class="fa fa-university"></i>{{family_sitter_name}}</a></h2>
+										<h2><a href="#"><i class="fa fa-university"></i>{{type}}</a></h2>
+									</div>
+									<div class="attendee-contacts clearfix">
+										{{#if email}}<h3><i class="fa fa-envelope"></i>{{email}}</h3>{{/if}}
+										
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			</script>
+			<div data-role="panel" data-position="right" data-position-fixed="true" data-display="push" id="attendee-detail-nav-panel" data-dismissible="true" data-swipe-close="true" data-theme="b">
+				<ul data-role="listview" data-theme="b" data-divider-theme="b">
+					<li data-icon="delete" data-corners="false" data-iconpos="right" data-theme="b" class="actions-header">
+						<a href="#" data-rel="close" class="ui-link-inherit">Quick Actions</a>
+					</li>
+					<li data-corners="false" data-shadow="false" data-theme="b">
+						<a href="#" class="home"><i class="fa fa-home"></i>Home</a>
+					</li>
+					<li data-corners="false" data-shadow="false" data-theme="b">
+                    <a href="#" class="my-jobs"><i class="fa fa-history"></i>My Jobs</a>
+					</li>
+					<li data-corners="false" data-shadow="false" data-theme="b">
+						<a href="#" class="profile-settings"><i class="fa fa-user"></i>Profile</a>
+					</li>
+					<li data-corners="false" data-shadow="false" data-theme="b">
+						<a href="#" class="log-out"  ><i class="fa fa-lock"></i>Logout</a>
+					</li>
+					
+				</ul>
+			</div>
+		 
+</div>
+
+<!-- jQuery / jQueryMobile Scripts --> 
+
+<script type="text/javascript" src="assets/js/libs/handlebars.js"></script> 
+<script type="text/javascript" src="assets/js/libs/underscore.js"></script> 
+<script type="text/javascript" src="assets/js/libs/moment.min.js"></script> 
+<script type="text/javascript" src="assets/js/libs/moment-range.min.js"></script> 
+<script type="text/javascript" src="assets/js/utilities/nativedroid.script.js"></script> 
+<script type="text/javascript" src="assets/js/utilities/owl.carousel.min.js"></script> 
+<script type="text/javascript" src="assets/js/utilities/jquery.smoothZoom.min.js"></script> 
+<script type="text/javascript" src="assets/js/app.js"></script>
+</body>
+</html>

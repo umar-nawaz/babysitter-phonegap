@@ -1297,3 +1297,16 @@ input[type="file"] {
     padding: 10px;
     color: #FFF;
 }
+#jobsdetail-in-edit{
+	display:none;
+	padding:5px;
+}
+.actions{
+	padding-top:20px;
+}
+.hide-by-default{
+	display:none;
+}
+.small-icons{
+	font-size: 20px;
+}
