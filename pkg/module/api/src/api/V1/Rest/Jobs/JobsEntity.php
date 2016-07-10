@@ -14,7 +14,7 @@ class JobsEntity
         {
         	$date_created = date('Y-m-d H:i:s');
 
-        	$query_jobs = "INSERT INTO jobs (name, description, date_created ) VALUES ('".$data->name."','".$data->description."','".$date_created."')";
+        	$query_jobs = "INSERT INTO jobs (name, description, date_created, job_date, job_time ) VALUES ('".$data->name."','".$data->description."','".$date_created."','".$data->job_date."','".$data->job_time."')";
 
         	$result = $dbAdapter->query($query_jobs, $dbAdapter::QUERY_MODE_EXECUTE);
 
@@ -81,10 +81,23 @@ class JobsEntity
 
         try 
         {
-        	
+        	//getting job
        		$query_jobs = "SELECT * FROM jobs WHERE id=$id ";
 
        		$result = $dbAdapter->query($query_jobs, $dbAdapter::QUERY_MODE_EXECUTE)->toArray();
+			
+			//getting user_jobs
+			$query_user_jobs = "SELECT * FROM user_jobs WHERE job_id=$id ";
+
+       		$result_user_jobs = $dbAdapter->query($query_user_jobs, $dbAdapter::QUERY_MODE_EXECUTE)->toArray();
+			
+			//sending user id  with job
+			if(!empty($result_user_jobs))
+			{
+				$user_id = $result_user_jobs[0]['user_id'];
+				
+				$result[0]['user_id']  =  $user_id;
+			}
 
             //getting bids related to jobs
 

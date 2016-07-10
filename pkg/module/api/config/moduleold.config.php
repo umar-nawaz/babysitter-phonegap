@@ -2,12 +2,11 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'api\\V1\\Rest\\Users\\UsersResource' => 'api\\V1\\Rest\\Users\\UsersResourceFactory',
-            'api\\V1\\Rest\\Login\\LoginResource' => 'api\\V1\\Rest\\Login\\LoginResourceFactory',
-            'api\\V1\\Rest\\Forgotpassword\\ForgotpasswordResource' => 'api\\V1\\Rest\\Forgotpassword\\ForgotpasswordResourceFactory',
-            'api\\V1\\Rest\\Jobs\\JobsResource' => 'api\\V1\\Rest\\Jobs\\JobsResourceFactory',
-            'api\\V1\\Rest\\Bids\\BidsResource' => 'api\\V1\\Rest\\Bids\\BidsResourceFactory',
-            'api\\V1\\Rest\\Appnotifications\\AppnotificationsResource' => 'api\\V1\\Rest\\Appnotifications\\AppnotificationsResourceFactory',
+            'Api\\V1\\Rest\\Users\\UsersResource' => 'Api\\V1\\Rest\\Users\\UsersResourceFactory',
+            'Api\\V1\\Rest\\Login\\LoginResource' => 'Api\\V1\\Rest\\Login\\LoginResourceFactory',
+            'Api\\V1\\Rest\\Forgotpassword\\ForgotpasswordResource' => 'Api\\V1\\Rest\\Forgotpassword\\ForgotpasswordResourceFactory',
+            'Api\\V1\\Rest\\Jobs\\JobsResource' => 'Api\\V1\\Rest\\Jobs\\JobsResourceFactory',
+            'Api\\V1\\Rest\\Bids\\BidsResource' => 'Api\\V1\\Rest\\Bids\\BidsResourceFactory',
         ),
     ),
     'router' => array(
@@ -17,7 +16,7 @@ return array(
                 'options' => array(
                     'route' => '/users[/:users_id]',
                     'defaults' => array(
-                        'controller' => 'api\\V1\\Rest\\Users\\Controller',
+                        'controller' => 'Api\\V1\\Rest\\Users\\Controller',
                     ),
                 ),
             ),
@@ -26,7 +25,7 @@ return array(
                 'options' => array(
                     'route' => '/login[/:login_id]',
                     'defaults' => array(
-                        'controller' => 'api\\V1\\Rest\\Login\\Controller',
+                        'controller' => 'Api\\V1\\Rest\\Login\\Controller',
                     ),
                 ),
             ),
@@ -35,7 +34,7 @@ return array(
                 'options' => array(
                     'route' => '/forgotpassword[/:forgotpassword_id]',
                     'defaults' => array(
-                        'controller' => 'api\\V1\\Rest\\Forgotpassword\\Controller',
+                        'controller' => 'Api\\V1\\Rest\\Forgotpassword\\Controller',
                     ),
                 ),
             ),
@@ -44,7 +43,7 @@ return array(
                 'options' => array(
                     'route' => '/jobs[/:jobs_id]',
                     'defaults' => array(
-                        'controller' => 'api\\V1\\Rest\\Jobs\\Controller',
+                        'controller' => 'Api\\V1\\Rest\\Jobs\\Controller',
                     ),
                 ),
             ),
@@ -53,16 +52,7 @@ return array(
                 'options' => array(
                     'route' => '/bids[/:bids_id]',
                     'defaults' => array(
-                        'controller' => 'api\\V1\\Rest\\Bids\\Controller',
-                    ),
-                ),
-            ),
-            'api.rest.appnotifications' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/appnotifications[/:appnotifications_id]',
-                    'defaults' => array(
-                        'controller' => 'api\\V1\\Rest\\Appnotifications\\Controller',
+                        'controller' => 'Api\\V1\\Rest\\Bids\\Controller',
                     ),
                 ),
             ),
@@ -75,12 +65,11 @@ return array(
             2 => 'api.rest.forgotpassword',
             3 => 'api.rest.jobs',
             4 => 'api.rest.bids',
-            5 => 'api.rest.appnotifications',
         ),
     ),
     'zf-rest' => array(
-        'api\\V1\\Rest\\Users\\Controller' => array(
-            'listener' => 'api\\V1\\Rest\\Users\\UsersResource',
+        'Api\\V1\\Rest\\Users\\Controller' => array(
+            'listener' => 'Api\\V1\\Rest\\Users\\UsersResource',
             'route_name' => 'api.rest.users',
             'route_identifier_name' => 'users_id',
             'collection_name' => 'users',
@@ -100,12 +89,12 @@ return array(
             ),
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => 'api\\V1\\Rest\\Users\\UsersEntity',
-            'collection_class' => 'api\\V1\\Rest\\Users\\UsersCollection',
+            'entity_class' => 'Api\\V1\\Rest\\Users\\UsersEntity',
+            'collection_class' => 'Api\\V1\\Rest\\Users\\UsersCollection',
             'service_name' => 'users',
         ),
-        'api\\V1\\Rest\\Login\\Controller' => array(
-            'listener' => 'api\\V1\\Rest\\Login\\LoginResource',
+        'Api\\V1\\Rest\\Login\\Controller' => array(
+            'listener' => 'Api\\V1\\Rest\\Login\\LoginResource',
             'route_name' => 'api.rest.login',
             'route_identifier_name' => 'login_id',
             'collection_name' => 'login',
@@ -122,12 +111,12 @@ return array(
             'collection_query_whitelist' => array(),
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => 'api\\V1\\Rest\\Login\\LoginEntity',
-            'collection_class' => 'api\\V1\\Rest\\Login\\LoginCollection',
+            'entity_class' => 'Api\\V1\\Rest\\Login\\LoginEntity',
+            'collection_class' => 'Api\\V1\\Rest\\Login\\LoginCollection',
             'service_name' => 'login',
         ),
-        'api\\V1\\Rest\\Forgotpassword\\Controller' => array(
-            'listener' => 'api\\V1\\Rest\\Forgotpassword\\ForgotpasswordResource',
+        'Api\\V1\\Rest\\Forgotpassword\\Controller' => array(
+            'listener' => 'Api\\V1\\Rest\\Forgotpassword\\ForgotpasswordResource',
             'route_name' => 'api.rest.forgotpassword',
             'route_identifier_name' => 'forgotpassword_id',
             'collection_name' => 'forgotpassword',
@@ -144,12 +133,12 @@ return array(
             'collection_query_whitelist' => array(),
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => 'api\\V1\\Rest\\Forgotpassword\\ForgotpasswordEntity',
-            'collection_class' => 'api\\V1\\Rest\\Forgotpassword\\ForgotpasswordCollection',
+            'entity_class' => 'Api\\V1\\Rest\\Forgotpassword\\ForgotpasswordEntity',
+            'collection_class' => 'Api\\V1\\Rest\\Forgotpassword\\ForgotpasswordCollection',
             'service_name' => 'forgotpassword',
         ),
-        'api\\V1\\Rest\\Jobs\\Controller' => array(
-            'listener' => 'api\\V1\\Rest\\Jobs\\JobsResource',
+        'Api\\V1\\Rest\\Jobs\\Controller' => array(
+            'listener' => 'Api\\V1\\Rest\\Jobs\\JobsResource',
             'route_name' => 'api.rest.jobs',
             'route_identifier_name' => 'jobs_id',
             'collection_name' => 'jobs',
@@ -167,12 +156,12 @@ return array(
             'collection_query_whitelist' => array(),
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => 'api\\V1\\Rest\\Jobs\\JobsEntity',
-            'collection_class' => 'api\\V1\\Rest\\Jobs\\JobsCollection',
+            'entity_class' => 'Api\\V1\\Rest\\Jobs\\JobsEntity',
+            'collection_class' => 'Api\\V1\\Rest\\Jobs\\JobsCollection',
             'service_name' => 'jobs',
         ),
-        'api\\V1\\Rest\\Bids\\Controller' => array(
-            'listener' => 'api\\V1\\Rest\\Bids\\BidsResource',
+        'Api\\V1\\Rest\\Bids\\Controller' => array(
+            'listener' => 'Api\\V1\\Rest\\Bids\\BidsResource',
             'route_name' => 'api.rest.bids',
             'route_identifier_name' => 'bids_id',
             'collection_name' => 'bids',
@@ -192,102 +181,66 @@ return array(
             ),
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => 'api\\V1\\Rest\\Bids\\BidsEntity',
-            'collection_class' => 'api\\V1\\Rest\\Bids\\BidsCollection',
+            'entity_class' => 'Api\\V1\\Rest\\Bids\\BidsEntity',
+            'collection_class' => 'Api\\V1\\Rest\\Bids\\BidsCollection',
             'service_name' => 'bids',
-        ),
-        'api\\V1\\Rest\\Appnotifications\\Controller' => array(
-            'listener' => 'api\\V1\\Rest\\Appnotifications\\AppnotificationsResource',
-            'route_name' => 'api.rest.appnotifications',
-            'route_identifier_name' => 'appnotifications_id',
-            'collection_name' => 'appnotifications',
-            'entity_http_methods' => array(
-                0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
-                4 => 'POST',
-            ),
-            'collection_http_methods' => array(
-                0 => 'GET',
-                1 => 'POST',
-            ),
-            'collection_query_whitelist' => array(
-                0 => 'read_status',
-                1 => 'user_id',
-            ),
-            'page_size' => 25,
-            'page_size_param' => null,
-            'entity_class' => 'api\\V1\\Rest\\Appnotifications\\AppnotificationsEntity',
-            'collection_class' => 'api\\V1\\Rest\\Appnotifications\\AppnotificationsCollection',
-            'service_name' => 'appnotifications',
         ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
-            'api\\V1\\Rest\\Users\\Controller' => 'HalJson',
-            'api\\V1\\Rest\\Login\\Controller' => 'HalJson',
-            'api\\V1\\Rest\\Forgotpassword\\Controller' => 'HalJson',
-            'api\\V1\\Rest\\Jobs\\Controller' => 'HalJson',
-            'api\\V1\\Rest\\Bids\\Controller' => 'HalJson',
-            'api\\V1\\Rest\\Appnotifications\\Controller' => 'HalJson',
+            'Api\\V1\\Rest\\Users\\Controller' => 'HalJson',
+            'Api\\V1\\Rest\\Login\\Controller' => 'HalJson',
+            'Api\\V1\\Rest\\Forgotpassword\\Controller' => 'HalJson',
+            'Api\\V1\\Rest\\Jobs\\Controller' => 'HalJson',
+            'Api\\V1\\Rest\\Bids\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
-            'api\\V1\\Rest\\Users\\Controller' => array(
+            'Api\\V1\\Rest\\Users\\Controller' => array(
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
                 3 => 'application/problem+json',
             ),
-            'api\\V1\\Rest\\Login\\Controller' => array(
+            'Api\\V1\\Rest\\Login\\Controller' => array(
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
-            'api\\V1\\Rest\\Forgotpassword\\Controller' => array(
+            'Api\\V1\\Rest\\Forgotpassword\\Controller' => array(
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
-            'api\\V1\\Rest\\Jobs\\Controller' => array(
+            'Api\\V1\\Rest\\Jobs\\Controller' => array(
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
                 3 => 'application/problem+json',
             ),
-            'api\\V1\\Rest\\Bids\\Controller' => array(
-                0 => 'application/vnd.api.v1+json',
-                1 => 'application/hal+json',
-                2 => 'application/json',
-            ),
-            'api\\V1\\Rest\\Appnotifications\\Controller' => array(
+            'Api\\V1\\Rest\\Bids\\Controller' => array(
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
         ),
         'content_type_whitelist' => array(
-            'api\\V1\\Rest\\Users\\Controller' => array(
+            'Api\\V1\\Rest\\Users\\Controller' => array(
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/json',
             ),
-            'api\\V1\\Rest\\Login\\Controller' => array(
+            'Api\\V1\\Rest\\Login\\Controller' => array(
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/json',
             ),
-            'api\\V1\\Rest\\Forgotpassword\\Controller' => array(
+            'Api\\V1\\Rest\\Forgotpassword\\Controller' => array(
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/json',
             ),
-            'api\\V1\\Rest\\Jobs\\Controller' => array(
+            'Api\\V1\\Rest\\Jobs\\Controller' => array(
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/json',
             ),
-            'api\\V1\\Rest\\Bids\\Controller' => array(
-                0 => 'application/vnd.api.v1+json',
-                1 => 'application/json',
-            ),
-            'api\\V1\\Rest\\Appnotifications\\Controller' => array(
+            'Api\\V1\\Rest\\Bids\\Controller' => array(
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/json',
             ),
@@ -295,76 +248,64 @@ return array(
     ),
     'zf-hal' => array(
         'metadata_map' => array(
-            'api\\V1\\Rest\\Users\\UsersEntity' => array(
+            'Api\\V1\\Rest\\Users\\UsersEntity' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.users',
                 'route_identifier_name' => 'users_id',
                 'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
             ),
-            'api\\V1\\Rest\\Users\\UsersCollection' => array(
+            'Api\\V1\\Rest\\Users\\UsersCollection' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.users',
                 'route_identifier_name' => 'users_id',
                 'is_collection' => true,
             ),
-            'api\\V1\\Rest\\Login\\LoginEntity' => array(
+            'Api\\V1\\Rest\\Login\\LoginEntity' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.login',
                 'route_identifier_name' => 'login_id',
                 'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
             ),
-            'api\\V1\\Rest\\Login\\LoginCollection' => array(
+            'Api\\V1\\Rest\\Login\\LoginCollection' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.login',
                 'route_identifier_name' => 'login_id',
                 'is_collection' => true,
             ),
-            'api\\V1\\Rest\\Forgotpassword\\ForgotpasswordEntity' => array(
+            'Api\\V1\\Rest\\Forgotpassword\\ForgotpasswordEntity' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.forgotpassword',
                 'route_identifier_name' => 'forgotpassword_id',
                 'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
             ),
-            'api\\V1\\Rest\\Forgotpassword\\ForgotpasswordCollection' => array(
+            'Api\\V1\\Rest\\Forgotpassword\\ForgotpasswordCollection' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.forgotpassword',
                 'route_identifier_name' => 'forgotpassword_id',
                 'is_collection' => true,
             ),
-            'api\\V1\\Rest\\Jobs\\JobsEntity' => array(
+            'Api\\V1\\Rest\\Jobs\\JobsEntity' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.jobs',
                 'route_identifier_name' => 'jobs_id',
                 'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
             ),
-            'api\\V1\\Rest\\Jobs\\JobsCollection' => array(
+            'Api\\V1\\Rest\\Jobs\\JobsCollection' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.jobs',
                 'route_identifier_name' => 'jobs_id',
                 'is_collection' => true,
             ),
-            'api\\V1\\Rest\\Bids\\BidsEntity' => array(
+            'Api\\V1\\Rest\\Bids\\BidsEntity' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.bids',
                 'route_identifier_name' => 'bids_id',
                 'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
             ),
-            'api\\V1\\Rest\\Bids\\BidsCollection' => array(
+            'Api\\V1\\Rest\\Bids\\BidsCollection' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.bids',
                 'route_identifier_name' => 'bids_id',
-                'is_collection' => true,
-            ),
-            'api\\V1\\Rest\\Appnotifications\\AppnotificationsEntity' => array(
-                'entity_identifier_name' => 'id',
-                'route_name' => 'api.rest.appnotifications',
-                'route_identifier_name' => 'appnotifications_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
-            ),
-            'api\\V1\\Rest\\Appnotifications\\AppnotificationsCollection' => array(
-                'entity_identifier_name' => 'id',
-                'route_name' => 'api.rest.appnotifications',
-                'route_identifier_name' => 'appnotifications_id',
                 'is_collection' => true,
             ),
         ),

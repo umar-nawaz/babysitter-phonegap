@@ -1,10 +1,10 @@
 <?php
-namespace api\V1\Rest\Users;
+namespace api\V1\Rest\Appnotifications;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class UsersResource extends AbstractResourceListener
+class AppnotificationsResource extends AbstractResourceListener
 {
     /**
      * Create a resource
@@ -14,11 +14,10 @@ class UsersResource extends AbstractResourceListener
      */
     public function create($data)
     {
-        
-        $user_entity = new UsersEntity();
-        
-        return $user_entity->create($data);
-
+		$appnotifications_entity = new AppnotificationsEntity();
+		
+		return $appnotifications_entity->create($data);
+		
         //return new ApiProblem(405, 'The POST method has not been defined');
     }
 
@@ -30,11 +29,7 @@ class UsersResource extends AbstractResourceListener
      */
     public function delete($id)
     {
-        $user_entity = new UsersEntity();
-        
-        return $user_entity->delete($id);
-
-        //return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
+        return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
     }
 
     /**
@@ -56,11 +51,7 @@ class UsersResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        $user_entity = new UsersEntity();
-        
-        return $user_entity->fetch($id);
-
-        // new ApiProblem(405, 'The GET method has not been defined for individual resources');
+        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
     }
 
     /**
@@ -71,11 +62,11 @@ class UsersResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-       // $user_entity = new UsersEntity();
-
-       // return $user_entity->fetchAll();
-
-        return new ApiProblem(405, 'The GET method has not been defined for collections');
+		$appnotifications_entity = new AppnotificationsEntity();
+		
+		return $appnotifications_entity->fetchAll($params);
+		
+        // return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 
     /**
@@ -87,11 +78,10 @@ class UsersResource extends AbstractResourceListener
      */
     public function patch($id, $data)
     {
-        
-        $user_entity = new UsersEntity();
-
-        return $user_entity->update($id, $data);
-
+		$appnotifications_entity = new AppnotificationsEntity();
+		
+		return $appnotifications_entity->patch($id, $data);
+		
         //return new ApiProblem(405, 'The PATCH method has not been defined for individual resources');
     }
 
@@ -115,7 +105,6 @@ class UsersResource extends AbstractResourceListener
      */
     public function update($id, $data)
     {
-
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
     }
 }

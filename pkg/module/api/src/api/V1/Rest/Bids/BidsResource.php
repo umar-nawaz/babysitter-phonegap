@@ -72,7 +72,7 @@ class BidsResource extends AbstractResourceListener
     {
         $bids_entity = new BidsEntity();
 
-        return $bids_entity->fetchAll();
+        return $bids_entity->fetchAll($params);
 
         //return new ApiProblem(405, 'The GET method has not been defined for collections');
     }

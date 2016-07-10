@@ -61,10 +61,17 @@ class UsersEntity
         	$query = "SELECT * FROM users WHERE id=$id";
 
         	$result = $dbAdapter->query($query, $dbAdapter::QUERY_MODE_EXECUTE)->toArray();
-            // print_r($result);
-            // die;
             
-            $query_userjobs = "SELECT * FROM user_jobs WHERE user_id=$id AND deleted=0 ORDER BY  date_created DESC";
+			//getting jobs according to type
+			
+			if($result[0]['type'] == 'Sitter')
+			{
+				$query_userjobs = "SELECT * FROM job_bids WHERE user_id=$id AND deleted=0 ORDER BY  date_created DESC";
+			}
+			else
+			{
+				$query_userjobs = "SELECT * FROM user_jobs WHERE user_id=$id AND deleted=0 ORDER BY  date_created DESC";
+			}
 
             $result_userjobs = $dbAdapter->query($query_userjobs, $dbAdapter::QUERY_MODE_EXECUTE)->toArray();
 
@@ -73,11 +80,11 @@ class UsersEntity
                 foreach($result_userjobs as $row)
                 {
                     $job_id = $row['job_id'];
-                    $query_jobs = "SELECT * FROM jobs WHERE id=$job_id ";
+                    $query_jobs = "SELECT * FROM jobs WHERE id=$job_id AND deleted=0 ";
 
                     $result_jobs = $dbAdapter->query($query_jobs, $dbAdapter::QUERY_MODE_EXECUTE)->toArray();
 
-                    array_push($jobs_data['user_jobs'], $result_jobs[0]);
+                    array_push($jobs_data['user_jobs'], $result_jobs);
                     
 
                 }
