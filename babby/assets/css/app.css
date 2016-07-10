@@ -710,9 +710,11 @@ ul#sposorsList.ui-list-view li a h1{
 
 .ui-mobile .ui-page.full-blue,
 .ui-mobile .ui-page-active.full-blue{
-	background: #fff;
+	background: #F2F2F2;
 }
-
+h1{
+	font-size: 22px!important;
+}
 .attendee-contacts h3{
 	margin:0 0 15px;
 }

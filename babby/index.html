@@ -102,9 +102,9 @@
 </li>
 <li class="ui-field-contain ui-grid-a"> Gender
   <fieldset data-role="controlgroup" class="ui-grid-a">
-	<input type="radio" id="Male" value=" Male" name="radio-group-1" />
+	<input type="radio" id="Male" value="Male" name="radio-group-1" />
 	<label for="Male">Male</label>
-	<input type="radio" id="Female" value=" Female" name="radio-group-1" />
+	<input type="radio" id="Female" value="Female" name="radio-group-1" />
 	<label for="Female">Female</label>
   </fieldset>
 </li>
@@ -209,11 +209,15 @@
 <!-- Forgot Password -->
 
 <div data-role="page" data-theme='b' id="forgot">
-  <div id="main_logo" class="text-center"> <img src="assets/images/logo.png"/> </div>
-  <div data-role="content" id="pageContent">
-    <div id="loginFailed" class="anErrorOccure message error"> <i class="fa fa-exclamation"></i>
+ <div id="" class="anErrorOccure message error"> <i class="fa fa-exclamation"></i>
       <p></p>
     </div>
+	 <div id="" class="Onsuccess message success"> <i class="fa fa-exclamation"></i>
+      <p></p>
+    </div>
+  <div id="main_logo" class="text-center"> <img src="assets/images/logo.png"/> </div>
+  <div data-role="content" id="pageContent">
+  
     <form name="forgot">
       <ul data-role="listview" data-inset="true">
         <li data-role="fieldcontain">
@@ -222,8 +226,23 @@
         <li>
           <button type="button" data-inline='false' id="forgot-send" class="ui-btn-deep ui-btn-active"><i class='lIcon fa fa-check'></i>Send</button>
         </li>
+		
+		 <li class="blocker">
+          <div class="ui-grid-b breakpoint">
+            <div class="ui-block-a">
+              <div class="marginRight"> </div>
+            </div>
+            <div class="ui-block-b">
+               <div class="marginRight text-center"> <span><a id="login_hook">Click Here To Login</a></span> </div>
+            </div>
+            <div class="ui-block-c">
+              <div class="marginRight text-center"></div>
+            </div>
+          </div>
+        </li>
       </ul>
     </form>
+
   </div>
 </div>
 
@@ -238,7 +257,9 @@
 	</div>
 	<div data-role="content" class="ui-content edit-form-making">
 	   <div class="page-detail-header edit-form-making">
-	   <h2><a href="#" class="pull-right ui-btn-deep ui-link ui-btn ui-btn-inline ui-shadow ui-corner-all" onclick="app.addNewJob()"><i class="fa fa-plus"></i> Add New Job </a></h2>
+	   <h2>
+	  <!-- <a href="#" class="pull-right ui-btn-deep ui-link ui-btn ui-btn-inline ui-shadow ui-corner-all" onclick="app.addNewJob()"><i class="fa fa-plus hide"></i> Add New Job </a> -->
+	   </h2>
 			<div id="all-jobs-in">
 			
 			
@@ -255,8 +276,11 @@
 		<li data-corners="false" data-shadow="false" data-theme="b">
 			<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
 		</li>
-		<li data-corners="false" data-shadow="false" data-theme="b">
+		<li data-corners="false" data-shadow="false" data-theme="b" class="myjobs">
 		<a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b" class="myappliactions">
+		<a href="#" onclick="app.myApplications()"><i class="fa fa-history"></i>My Applications</a>
 		</li>
 		<li data-corners="false" data-shadow="false" data-theme="b">
 			<a href="#" onclick="app.loadUserProfile()"><i class="fa fa-user"></i>Profile</a>
@@ -268,11 +292,49 @@
 </div>
 </div>
 
+<div data-role="page" data-theme="b" id="applicationsList" class="full-blue">
+	<div data-role="header" data-tap-toggle="false" data-theme="b">
+		<a href="#" data-rel="back" class="global-menu ui-btn-left"><!--<i class="fa fa-2x fa-angle-left"></i>--></a>
+		<h1>My Applications</h1>
+		<a href="#application-list-menu"  class="global-menu ui-btn-right"><i class="fa fa-2x fa-bars"></i></a>
+	</div>
+	<div data-role="content" class="ui-content edit-form-making">
+	   <div class="page-detail-header edit-form-making">
+	   <h2><a href="#" class="pull-right ui-btn-deep ui-link ui-btn ui-btn-inline ui-shadow ui-corner-all" onclick="app.allJobs()"><i class="fa fa-send"></i> Latest Jobs </a></h2>
+			<div id="applications-in">
+			
+			
+			</div>
+		</div>
+	</div>
+ <div data-role="panel" data-position="right" data-position-fixed="true" data-display="push" id="application-list-menu" data-dismissible="true" data-swipe-close="true" data-theme="b">
+	<ul data-role="listview" data-theme="b" data-divider-theme="b">
+		<li data-icon="delete" data-corners="false" data-iconpos="right" data-theme="b" class="actions-header">
+			<a href="#" data-rel="close" class="ui-link-inherit">Quick Actions</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b">
+			<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b" class="myjobs">
+		<a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b" class="myappliactions">
+		<a href="#" onclick="app.myApplications()"><i class="fa fa-history"></i>My Applications</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b">
+			<a href="#" onclick="app.loadUserProfile()"><i class="fa fa-user"></i>Profile</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b">
+			<a href="#" class="log-out"><i class="fa fa-lock"></i>Logout</a>
+		</li>		
+  </ul>
+</div>
+</div>
 <div data-role="page" data-theme="b" id="jobsList" class="full-blue">
 	<div data-role="header" data-tap-toggle="false" data-theme="b">
 		<a href="#" data-rel="back" class="global-menu ui-btn-left"><!--<i class="fa fa-2x fa-angle-left"></i>--></a>
 		<h1>My Jobs</h1>
-		<a href="#jobs-list-menu"  class="global-menu ui-btn-right"><i class="fa fa-2x fa-bars"></i></a>
+		<a href="#my-jobs-list-menu"  class="global-menu ui-btn-right"><i class="fa fa-2x fa-bars"></i></a>
 	</div>
 	<div data-role="content" class="ui-content edit-form-making">
 	   <div class="page-detail-header edit-form-making">
@@ -283,7 +345,7 @@
 			</div>
 		</div>
 	</div>
- <div data-role="panel" data-position="right" data-position-fixed="true" data-display="push" id="jobs-list-menu" data-dismissible="true" data-swipe-close="true" data-theme="b">
+ <div data-role="panel" data-position="right" data-position-fixed="true" data-display="push" id="my-jobs-list-menu" data-dismissible="true" data-swipe-close="true" data-theme="b">
 	<ul data-role="listview" data-theme="b" data-divider-theme="b">
 		<li data-icon="delete" data-corners="false" data-iconpos="right" data-theme="b" class="actions-header">
 			<a href="#" data-rel="close" class="ui-link-inherit">Quick Actions</a>
@@ -291,8 +353,11 @@
 		<li data-corners="false" data-shadow="false" data-theme="b">
 			<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
 		</li>
-		<li data-corners="false" data-shadow="false" data-theme="b">
+		<li data-corners="false" data-shadow="false" data-theme="b" class="myjobs">
 		<a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b" class="myappliactions">
+		<a href="#" onclick="app.myApplications()"><i class="fa fa-history"></i>My Applications</a>
 		</li>
 		<li data-corners="false" data-shadow="false" data-theme="b">
 			<a href="#" onclick="app.loadUserProfile()"><i class="fa fa-user"></i>Profile</a>
@@ -321,21 +386,6 @@
 	 <div id="main_logo" class="text-center"> <img src="assets/images/logo.png"/> </div>
 	   <div class="page-detail-header edit-form-making ">
 	  	<div id="jobs-add">
-		<form name="addjob">
-			<ul data-role="listview" data-inset="true">
-			<li data-role="fieldcontain">
-			  
-			  <input type="text" class="" id="job_name" placeholder="Job Title/Name">
-			</li>
-			<li data-role="fieldcontain">
-			  
-			  <input type="text" class="" id="job_discription" placeholder="Job discription">
-			</li>
-			<li>
-			  <button type="button" data-inline='false' onclick="app.addUserjob()" class="ui-btn-deep ui-btn-active"><i class='lIcon fa fa-floppy-o'></i>Save New Job</button>
-			</li>
-			</ul>
-		</form>
 			
 		</div>
 		</div>
@@ -348,8 +398,11 @@
 		<li data-corners="false" data-shadow="false" data-theme="b">
 			<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
 		</li>
-		<li data-corners="false" data-shadow="false" data-theme="b">
+		<li data-corners="false" data-shadow="false" data-theme="b" class="myjobs">
 		<a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
+		</li>
+		<li data-corners="false" data-shadow="false" data-theme="b" class="myappliactions">
+		<a href="#" onclick="app.myApplications()"><i class="fa fa-history"></i>My Applications</a>
 		</li>
 		<li data-corners="false" data-shadow="false" data-theme="b">
 			<a href="#" onclick="app.loadUserProfile()"><i class="fa fa-user"></i>Profile</a>
@@ -403,8 +456,11 @@
 					<li data-corners="false" data-shadow="false" data-theme="b">
 						<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
 					</li>
-					<li data-corners="false" data-shadow="false" data-theme="b">
-                    <a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
+					<li data-corners="false" data-shadow="false" data-theme="b" class="myjobs">
+					<a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
+					</li>
+					<li data-corners="false" data-shadow="false" data-theme="b" class="myappliactions">
+					<a href="#" onclick="app.myApplications()"><i class="fa fa-history"></i>My Applications</a>
 					</li>
 					<li data-corners="false" data-shadow="false" data-theme="b">
 						<a href="#" onclick="app.loadUserProfile()"><i class="fa fa-user"></i>Profile</a>
@@ -451,8 +507,11 @@
 					<li data-corners="false" data-shadow="false" data-theme="b">
 						<a href="#" onclick="app.allJobs()" class="home"><i class="fa fa-home"></i>Home</a>
 					</li>
-					<li data-corners="false" data-shadow="false" data-theme="b">
-                    <a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
+					<li data-corners="false" data-shadow="false" data-theme="b" class="myjobs">
+					<a href="#" onclick="app.myJobs()"><i class="fa fa-history"></i>My Jobs</a>
+					</li>
+					<li data-corners="false" data-shadow="false" data-theme="b" class="myappliactions">
+					<a href="#" onclick="app.myApplications()"><i class="fa fa-history"></i>My Applications</a>
 					</li>
 					<li data-corners="false" data-shadow="false" data-theme="b">
 						<a href="#" onclick="app.loadUserProfile()"><i class="fa fa-user"></i>Profile</a>

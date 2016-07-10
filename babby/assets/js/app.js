@@ -11,6 +11,7 @@ app = {
 		addjob   : '#jobsAdd',
 		singlejobsDetail : '#jobsDetail',
 		profile : '#profile',
+		applicationsPage: '#applicationsList',
 		//baseURL : 'http://babysitterconnection.com/api/public/',
 		baseURL : 'http://localhost/pkg/public/',
 	},
@@ -53,7 +54,7 @@ app = {
 	pageNav : function () {
 		page = $.mobile.path.get();
 	//	alert(page);
-		if (page != 'homePage' && page != 'login' && page != '' && page != 'signup' && page != 'profile' && page != 'jobsDetail' && page !='jobsList' && page != 'jobsAdd') {
+		if (page != 'homePage' && page != 'login' && page != '' && page != 'signup' && page != 'profile' && page != 'jobsDetail' && page !='jobsList' && page != 'jobsAdd' && page != 'applicationsList') {
 			
 			var Storage = app.getCookie('refractivLog');
 			if (typeof(Storage) !== "undefined" && !(Storage)) {
@@ -84,11 +85,30 @@ app = {
 		return unescape(theCookie.substring(ind + cookieName.length + 2, ind1));
 	},
 	addUserjob: function(){
+		
 		job_name = $(app.config.addjob).find('#job_name').val();
 		if(! job_name ){
 		$("html, body").animate({ scrollTop: "0" });
 		$('.anErrorOccure').show();
 		$('.anErrorOccure p').html("Job Title could not be empty.");
+	    $(".anErrorOccure").delay(3000).fadeOut("slow");
+		$('.ui-panel-dismiss').hide();
+		return false;
+		}
+		job_date_ = $(app.config.addjob).find('#job_date').val();
+		if(! job_date_ ){
+		$("html, body").animate({ scrollTop: "0" });
+		$('.anErrorOccure').show();
+		$('.anErrorOccure p').html("Job time could not be empty.");
+	    $(".anErrorOccure").delay(3000).fadeOut("slow");
+		$('.ui-panel-dismiss').hide();
+		return false;
+		}
+		job_time_ = $(app.config.addjob).find('#job_time').val();
+		if(! job_time_ ){
+		$("html, body").animate({ scrollTop: "0" });
+		$('.anErrorOccure').show();
+		$('.anErrorOccure p').html("Job time could not be empty.");
 	    $(".anErrorOccure").delay(3000).fadeOut("slow");
 		$('.ui-panel-dismiss').hide();
 		return false;
@@ -135,7 +155,9 @@ app = {
 				
 				name               : job_name ,
 				description : job_discription ,
-				user_id     : app.getCookie('userId')
+				user_id     : app.getCookie('userId'),
+				job_date    : job_date_,
+				job_time    : job_time_
 			}) 
 		}).success(function (data) {
 			
@@ -151,7 +173,13 @@ app = {
 			setTimeout(function(){
 				$.mobile.navigate(app.config.singlejobsDetail);
 			},3000);
-			
+			 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+			 }else{
+				  $('.myjobs').hide();
+				   $('.myappliactions').show();
+			 }
 			}
 			else{
 			$('.anErrorOccure').show();
@@ -300,11 +328,21 @@ app = {
 			$.mobile.loading("hide");
 			$('.ui-panel-dismiss').hide();
 			app.setCookie('userId',data._embedded.id , '30');
+			app.setCookie('userType',data._embedded.type , '30');
+			app.setCookie('userName',data._embedded.name , '30');
+			app.setCookie('userGender',data._embedded.gender , '30');
+			
 			app.setCookie('refractivLog', 'true', '30');
 			$.mobile.loading("hide");
 			$('.ui-panel-dismiss').hide();
-			$.mobile.navigate(app.config.jobsPage);
-	
+			$.mobile.navigate(app.config.alljobsPage);
+			 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+			 }else{
+				  $('.myjobs').hide();
+				   $('.myappliactions').show();
+			 }
 				
 			}
 			else{
@@ -325,6 +363,7 @@ app = {
 			html : ""
 		});
 		$('.ui-panel-dismiss').show();
+		
 		$.ajax({
 			type : 'POST',
 			url : app.config.baseURL + 'login',
@@ -356,9 +395,23 @@ app = {
 			$('.ui-panel-dismiss').hide();
 			app.setCookie('refractivLog', 'true', '30');
 			app.setCookie('userId',data._embedded[0].id , '30');
+			app.setCookie('userType',data._embedded[0].type , '30');
+			app.setCookie('userName',data._embedded[0].name , '30');
+			app.setCookie('userGender',data._embedded[0].gender , '30');
+			
+			
+			app.setCookie('refractivLog', 'true', '30');
+			
 			$.mobile.loading("hide");
 			$('.ui-panel-dismiss').hide();
-			$.mobile.navigate(app.config.jobsPage);
+			$.mobile.navigate(app.config.alljobsPage);
+			 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+			 }else{
+				  $('.myjobs').hide();
+				   $('.myappliactions').show();
+			 }
 	
 				
 			}
@@ -375,7 +428,15 @@ app = {
 	logoutUser : function () {
 		$('#pagetitle').text('Login');
 		 app.removeCookie('refractivLog');
-		 app.removeCookie('');
+		 app.removeCookie('userId');
+		 app.removeCookie('userType');
+		 app.removeCookie('userName');
+		 
+		 app.removeCookie('jobId_detail');
+		 app.removeCookie('jobId_trace');
+		 app.removeCookie('userGender');
+		 
+		 
 		 $("#jobsHBS").empty();
 		 $("#profileHBS").empty();
 		 $.mobile.navigate(app.config.loginPage);
@@ -385,7 +446,23 @@ app = {
 		 //$.mobile.navigate(app.config.jobsPage);
 	},
 	forgotSend : function () {
-		$('#pagetitle').text('Forgot Page');
+		
+		$('#pagetitle').text('Forgot Password');
+		my_email = $(app.config.forgotPage).find('#email').val()
+		if(! my_email ){
+		$("html, body").animate({ scrollTop: "0" });
+		$('.anErrorOccure').show();
+		$('.anErrorOccure p').html("Please input your email id.");
+	    $(".anErrorOccure").delay(3000).fadeOut("slow");
+		$('.ui-panel-dismiss').hide();
+		return false;
+		}
+		$.mobile.loading("show", {
+			text : "",
+			textVisible : false,
+			theme : "b",
+			html : ""
+		});
 		$.ajax({
 			type : 'POST',
 			url :  app.config.baseURL + 'forgotpassword',
@@ -394,17 +471,28 @@ app = {
 			},
 			contentType : 'application/json',
 			data : JSON.stringify({
-			 email : $(app.config.forgotPage).find('#email').val()
+			email : my_email
 			}) 
-		}).success(function () {
+		}).success(function (data) {
+			if(data.status == "true"){
 			$(app.config.forgotPage).find('#email').val('');
+			app.setCookie('refractivLog', '', 0);
+			$.mobile.loading("hide");
+			$('.ui-panel-dismiss').hide();
+			$('.Onsuccess').show();
+			$(".Onsuccess").delay(3000).fadeOut("slow");
+			$('.Onsuccess p').html(data.message);
+			}
+			if(data.status == "false"){
 			app.setCookie('refractivLog', '', 0);
 			$.mobile.loading("hide");
 			$('.ui-panel-dismiss').hide();
 			$('.anErrorOccure').show();
 			$(".anErrorOccure").delay(3000).fadeOut("slow");
-			$('.anErrorOccure p').html("Password is sent via email.");
-			$.mobile.navigate(app.config.signupPage);
+			$('.anErrorOccure p').html(data.message);
+			}
+			
+			//$.mobile.navigate(app.config.signupPage);
 		}).fail(function () {
 			$.mobile.loading("hide");
 			$('.ui-panel-dismiss').hide();
@@ -431,28 +519,29 @@ app = {
 		$(elem).find('.ui-panel').height(hackHeight);
 	},
 	alljobsList : function(){
-			$.mobile.loading("show", {
+		$('#pagetitle').text('All Jobs');
+		
+		$.mobile.loading("show", {
 			text : "",
 			textVisible : false,
 			theme : "b",
 			html : ""
 		});
-		
 		$('.ui-panel-dismiss').show();
+		
 			$.ajax({
 				url :  app.config.baseURL +'jobs',
 				xhrFields : {
 					withCredentials : true
 				}
 			}).done(function (response) {
-				$.mobile.loading("hide");
-				$('.ui-panel-dismiss').hide();
 				
-				var data = response._embedded;
+				
+				var data = response._embedded.jobs[0];
 				template = '<script id="jobsallHBS" type="x-handlebars-template">'+	
 					'{{#each this}}'+
 						'<div class="ui-body ui-body-a ui-corner-all" style="margin-bottom: 13px;">'+
-								'<h2><i class="fa fa-hand-o-right"></i> {{name}}</h2>'+
+								'<h1><i class="fa fa-hand-o-right"></i> {{name}}</h1>'+
 								'<div class="ui-corner-all">'+
 								'<h5 class="show_all"><i class="fa fa-clock-o"></i> Posted on: <span class="pull-right"> {{date_created}}</span></h5>'+
 								'</div>'+
@@ -460,8 +549,18 @@ app = {
 					   '</div>'+
 				   '{{/each}}'+
 			'</script> ';
+			 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+			 }else{
+				  $('.myjobs').hide();
+				   $('.myappliactions').show();
+			 }
 				app.renderTemplates(template, '#all-jobs-in', data);
 				$.mobile.navigate(app.config.alljobsPage);
+		        $.mobile.loading("hide");
+				$('.ui-panel-dismiss').hide();
+				
 			}).fail(function(response){
 				$.mobile.loading("hide");
 				$('.ui-panel-dismiss').hide();
@@ -474,8 +573,62 @@ app = {
 
 		
 	},
-	jobsList : function () {
+	myApplications : function () {
+		$('#pagetitle').text('My Applications');
+		$.mobile.loading("show", {
+			text : "",
+			textVisible : false,
+			theme : "b",
+			html : ""
+		});
 		
+		$('.ui-panel-dismiss').show();
+			$.ajax({
+				url :  app.config.baseURL +'bids?query=' + app.getCookie('userId'),
+				xhrFields : {
+					withCredentials : true
+				}
+			}).done(function (response) {
+				
+				
+				var data = response._embedded;
+				template = '<script id="applicationsHBS" type="x-handlebars-template">'+	
+					'{{#each this}}'+
+						'<div class="ui-body ui-body-a ui-corner-all" style="margin-bottom: 13px;">'+
+								'<h1><i class="fa fa-hand-o-right"></i> {{name}}</h1>'+
+								'<div class="ui-corner-all">'+
+								'<h5 class="show_all"><i class="fa fa-user"></i> Applicant Name: <span class="pull-right"> {{applicant_name}}</span></h5>'+
+								'<h5 class="show_all"><i class="fa fa-clock-o"></i> Applied  Date: <span class="pull-right"> {{date_created}}</span></h5>'+
+								'<h5 class="show_all"><i class="fa fa-link"></i> Proposal: <span class="pull-right"> {{description}}</span></h5>'+
+								'</div>'+
+					   '</div>'+
+				   '{{/each}}'+
+			'</script> ';
+				app.renderTemplates(template, '#applications-in', data);
+				$.mobile.navigate(app.config.applicationsPage);
+				 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+					 }else{
+						  $('.myjobs').hide();
+						   $('.myappliactions').show();
+					 }
+					 $.mobile.loading("hide");
+				$('.ui-panel-dismiss').hide();
+			}).fail(function(response){
+				$.mobile.loading("hide");
+				$('.ui-panel-dismiss').hide();
+				$('.anErrorOccure').show();
+				$(".anErrorOccure").delay(3000).fadeOut("slow");
+				$('.anErrorOccure p').html("Failed to load.");
+				//$.mobile.navigate(app.config.jobsPage);
+			});
+		
+
+		
+	},
+	jobsList : function () {
+		$('#pagetitle').text('My Jobs');
 		$.mobile.loading("show", {
 			text : "",
 			textVisible : false,
@@ -490,14 +643,16 @@ app = {
 					withCredentials : true
 				}
 			}).done(function (response) {
-				$.mobile.loading("hide");
-				$('.ui-panel-dismiss').hide();
 				
-				var data = response._embedded[0].hasMany[0].user_jobs;
+				
+				var data = "";
+				if("hasMany" in response._embedded[0]){
+				 data = response._embedded[0].hasMany[0].user_jobs;
+				}
 				template = '<script id="jobsHBS" type="x-handlebars-template">'+	
 					'{{#each this}}'+
 						'<div class="ui-body ui-body-a ui-corner-all" style="margin-bottom: 13px;">'+
-								'<h2><i class="fa fa-hand-o-right"></i> {{name}}</h2>'+
+								'<h1><i class="fa fa-hand-o-right"></i> {{name}}</h1>'+
 								'<div class="ui-corner-all">'+
 								'<h5 class="show_all"><i class="fa fa-clock-o"></i> Posted on: <span class="pull-right"> {{date_created}}</span></h5>'+
 								'</div>'+
@@ -507,6 +662,15 @@ app = {
 			'</script> ';
 				app.renderTemplates(template, '#jobs-in', data);
 				$.mobile.navigate(app.config.jobsPage);
+				 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+					 }else{
+						  $('.myjobs').hide();
+						   $('.myappliactions').show();
+					 }
+					 $.mobile.loading("hide");
+				$('.ui-panel-dismiss').hide();
 			}).fail(function(response){
 				$.mobile.loading("hide");
 				$('.ui-panel-dismiss').hide();
@@ -517,9 +681,10 @@ app = {
 			});
 		
 
-		$('#pagetitle').text('Full Jobs');
+		
 	},
 	jobApply : function(this_job_id){
+		$('#pagetitle').text('Job Application');
 		apply_job_username = $(app.config.singlejobsDetail).find('#AJ-username').val();
 		if(! apply_job_username ){
 		$("html, body").animate({ scrollTop: "0" });
@@ -533,7 +698,7 @@ app = {
 		if(! apply_job_name ){
 		$("html, body").animate({ scrollTop: "0" });
 		$('.anErrorOccure').show();
-		$('.anErrorOccure p').html("Application Tag Line/tile is missing.");
+		$('.anErrorOccure p').html("Application Subject is missing.");
 	    $(".anErrorOccure").delay(3000).fadeOut("slow");
 		$('.ui-panel-dismiss').hide();
 		return false;
@@ -570,6 +735,7 @@ app = {
 					app.config.authdata = data.Message;
 					$.mobile.loading("hide");
 					$('.ui-panel-dismiss').hide();
+					$('.hide-click-apply').show();
 					$(app.config.singlejobsDetail).find('.anErrorOccure').html("");
 					$(app.config.singlejobsDetail).find('.anErrorOccure').show();
 					$(app.config.singlejobsDetail).find('.anErrorOccure').html(data.Message);
@@ -587,35 +753,53 @@ app = {
 				
 			}) 
 		}).success(function (data) {
-			if(data.status){
+			if(data.status == "false"){
+				$.mobile.loading("hide");
+				$('.ui-panel-dismiss').hide();
+				$('.Onsuccess').show();
+				$(".Onsuccess").delay(3000).fadeOut("slow");
+				$('.Onsuccess p').html("You already applied for this job");
+				$('.hide-by-default').hide();
+				$('.hide-click-apply').show();
+			}
+			else{
 			$.mobile.loading("hide");
 			$('.ui-panel-dismiss').hide();
 			$('.Onsuccess').show();
 			$(".Onsuccess").delay(3000).fadeOut("slow");
 			$('.Onsuccess p').html("Application submitted Successfully");
 			$('.hide-by-default').hide();
+			$('.hide-click-apply').show();
 			setTimeout(function(){
 				
 				app.jobsDetails();
 				
 			},1000);
-			}
-			else{
+			 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+				 }else{
+					  $('.myjobs').hide();
+					   $('.myappliactions').show();
+				 }
 				
 			}
 		}).fail(function (jqXHR, textStatus, errorThrown, response, responseText) {
 		});
 	},
 	jobApplypage : function(id){
+		$('.hide-click-apply').hide();
 		$('.hide-by-default').show();
 		
 		
 	},
 	cancelapply : function(){
 		$('.hide-by-default').hide();
+		$('.hide-click-apply').show();
 	}
 	,
 	jobsDetails : function () {
+		$('#pagetitle').text('Job Details');
 		$.mobile.loading("show", {
 			text : "",
 			textVisible : false,
@@ -636,9 +820,12 @@ app = {
 							'<div class="marginLeft">'+
 									'<div class="ui-body ui-body-a ui-corner-all">'+
 										'<h1><i class="fa fa-fax"></i> {{name}} </h1>'+
-										'<div class="ui-corner-all" > <h5><i class="fa fa-clock-o"></i> Posted Date: <span class="pull-right"> {{date_created}}<span class="pull-right"> </h5></div>'+
+										'<div class="ui-corner-all" > <h5><i class="fa fa-calendar-o"></i> Job Date: <span class="pull-right"> {{job_date}}<span class="pull-right"> </h5></div>'+
+										'<div class="ui-corner-all" > <h5><i class="fa fa-clock-o"></i> Job Time: <span class="pull-right"> {{job_time}}<span class="pull-right"> </h5></div>'+
+										'<div class="ui-corner-all" > <h5><i class="fa fa-calendar"></i> Posted Date: <span class="pull-right"> {{date_created}}<span class="pull-right"> </h5></div>'+
+									
 										'<div class="ui-corner-all" > <h5><i class="fa fa-list-alt"></i> Description: <span class="pull-right"> {{description}}</span></h5></div>'+
-										'<button type="button"  data-indivne="false" onclick="app.jobApplypage({{id}})" class="col-1 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all pull-right"><i class="lIcon fa fa-check"></i>Apply Now</button>'+
+										'<button type="button"  data-indivne="false" onclick="app.jobApplypage({{id}})" class="col-1 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all pull-right hide-click-apply"><i class="lIcon fa fa-check"></i>Apply Now</button>'+
 									'</div>'+
 							'</div>'+
 							'</script>';
@@ -647,13 +834,13 @@ app = {
 										   '<form id="editform">'+
 												'<div class="listview" data-inset="true" >'+
 													'<div class="fieldcontain">'+
-														 '<input type="text" class="input-lovely" id="AJ-username" data-clear-btn="true" placeholder="Your Name">'+
+														 '<input type="text" class="input-lovely" id="AJ-username" data-clear-btn="true" placeholder="Your Name" value="'+ app.getCookie('userName') +'">'+
 													'</div>'+
 													'<div class="fieldcontain">'+
-														 '<input type="text" class="input-lovely" id="AJ-name" data-clear-btn="true" placeholder="Tag line">'+
+														 '<input type="text" class="input-lovely" id="AJ-name" data-clear-btn="true" placeholder="Subject">'+
 													'</div>'+
 														'<div class="fieldcontain">'+
-														 '<input type="text" class="input-lovely" id="AJ-description" data-clear-btn="true" placeholder="Some Words about Yourself">'+
+														 '<input type="text" class="input-lovely" id="AJ-description" data-clear-btn="true" placeholder="Proposal">'+
 													'</div>'+
 													'<div class="actions">'+
 														 '<button type="button"  data-indivne="false" onclick="app.jobApply({{id}})" class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-check"></i>Apply Now</button>'+
@@ -670,9 +857,12 @@ app = {
 							'<div class="marginLeft">'+
 									'<div class="ui-body ui-body-a ui-corner-all">'+
 										'<h1><i class="fa fa-fax"></i> {{name}}<a href="#" class="pull-right small-icons" style="margin-left:10px;" onclick="app.showEditables()"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp; <a href="#" class="pull-right small-icons" onclick="app.deleteJobb({{id}})"><i class="fa fa-times"></i></a></h1>'+
-										'<div class="ui-corner-all" > <h5><i class="fa fa-clock-o"></i> Posted Date: <span class="pull-right"> {{date_created}}<span class="pull-right"> </h5></div>'+
-										'<div class="ui-corner-all" > <h5><i class="fa fa-list-alt"></i> Description: <span class="pull-right"> {{description}}</span></h5></div>'+
+										'<div class="ui-corner-all" > <h5><i class="fa fa-calendar-o"></i> Job Date: <span class="pull-right"> {{job_date}}<span class="pull-right"> </h5></div>'+
+										'<div class="ui-corner-all" > <h5><i class="fa fa-clock-o"></i> Job Time: <span class="pull-right"> {{job_time}}<span class="pull-right"> </h5></div>'+
+										'<div class="ui-corner-all" > <h5><i class="fa fa-calendar"></i> Posted Date: <span class="pull-right"> {{date_created}}<span class="pull-right"> </h5></div>'+
 									
+										'<div class="ui-corner-all" > <h5><i class="fa fa-list-alt"></i> Description: <span class="pull-right"> {{description}}</span></h5></div>'+
+								
 									'</div>'+
 							'</div>'+
 							'</script>';
@@ -682,11 +872,17 @@ app = {
 													'<div class="fieldcontain">'+
 														 '<input type="text" class="input-lovely" id="EJ-name" data-clear-btn="true" value="{{name}}">'+
 													'</div>'+
+													'<div class="fieldcontain">'+
+														 '<input type="date" class="input-lovely" id="EJ-job_date" data-clear-btn="true" value="{{job_date}}">'+
+													'</div>'+
+													'<div class="fieldcontain">'+
+														 '<input type="time" class="input-lovely" id="EJ-job_time" data-clear-btn="true" value="{{job_time}}">'+
+													'</div>'+
 														'<div class="fieldcontain">'+
 														 '<input type="text" class="input-lovely" id="EJ-description" data-clear-btn="true" value="{{description}}">'+
 													'</div>'+
 													'<div class="actions">'+
-														 '<button type="button"  data-indivne="false" onclick="app.saveJobsEditables()" class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-check"></i>Save Changes</button>'+
+														 '<button type="button"  data-indivne="false" onclick="app.saveJobsEditables()" class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-check"></i>Save</button>'+
 														 '<button type="button"  data-inline="false" onclick="app.cancelEditables()"   class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-times"></i>Cancel</button>'+
 													
 													'</div>'+
@@ -726,6 +922,13 @@ app = {
 				
 				$.mobile.loading("hide");
 				$('.ui-panel-dismiss').hide();
+				 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+			 }else{
+				  $('.myjobs').hide();
+				   $('.myappliactions').show();
+			 }
 				
 			}).fail(function (response) {
 				$.mobile.loading("hide");
@@ -735,7 +938,7 @@ app = {
 				$('.anErrorOccure p').html("Failed to load.");
 			});
 
-		$('#pagetitle').text('Single Job Details');
+		$('#pagetitle').text('Job Details');
 	},
 	deleteJobb : function(job_id){
 		$.mobile.loading("show", {
@@ -789,6 +992,7 @@ app = {
 	}
 	,
 	userProfile : function (userId) {
+		$('#pagetitle').text('Profile');
 		$.mobile.loading("show", {
 			text : "",
 			textVisible : false,
@@ -840,6 +1044,27 @@ app = {
 						'</div>'+
 					'</div>'+
 			'</script>';
+			
+			type_sitter = '';
+			type_family = '';
+			if(data.type == "Family"){
+				app.setCookie('userType', 'Family' , '30');
+				type_family = 'checked';
+			}else{
+				type_sitter = 'checked';
+				app.setCookie('userType', 'Sitter' , '30');
+			}
+			type_male = '';
+			type_female = '';
+			if(data.gender == "Male"){
+				type_male = 'checked';
+				app.setCookie('userGender', 'Male' , '30');
+			}else{
+				type_female = 'checked';
+				app.setCookie('userGender', 'Female' , '30');
+			}
+			
+			
 			template2 = '<script id="editprofileHBS" type="x-handlebars-template">'+
 					   '<form id="editform">'+
 							 '<div class="listview" data-inset="true" >'+
@@ -873,7 +1098,7 @@ app = {
 							'<div class="col-6">'+ 
 				                   '<div class="col-6">'+
 								'<div class="col-6">'+
-								'<input class="radio-show" type="radio" id="E-Male" value=" Male" name="radio-group-3" />'+
+								'<input class="radio-show" type="radio" id="E-Male" value="Male" '+ type_male +' name="radio-group-3" />'+
 								'</div>'+
 								'<div class="col-6">'+
 								'<label for="Male">Male</label>'+
@@ -881,7 +1106,7 @@ app = {
 								'</div>'+
 								'<div class="col-6">'+
 								'<div class="col-6">'+
-								'<input class="radio-show"type="radio" id="E-Female" value=" Female" name="radio-group-3" />'+
+								'<input class="radio-show"type="radio" id="E-Female" value="Female" '+ type_female +' name="radio-group-3" />'+
 								'</div>'+
 								'<div class="col-6">'+
 								'<label for="Female">Female</label>'+
@@ -891,7 +1116,7 @@ app = {
 							'<div class="col-6">'+
 								'<div class="col-6">'+
 								'<div class="col-6">'+
-								'<input class="radio-show"  type="radio" id="E-Family" value="Family" name="radio-group-4" />'+
+								'<input class="radio-show"  type="radio" id="E-Family" value="Family" '+ type_family +' name="radio-group-4" />'+
 								'</div>'+
 								'<div class="col-6">'+
 								'<label for="Family">Family</label>'+
@@ -899,7 +1124,7 @@ app = {
 								'</div>'+
 								'<div class="col-6">'+
 								'<div class="col-6">'+
-								'<input class="radio-show" type="radio" id="E-Sitter" value="Sitter" name="radio-group-4" />'+
+								'<input class="radio-show" type="radio" id="E-Sitter" value="Sitter" '+ type_sitter +' name="radio-group-4" />'+
 									'</div>'+
 								'<div class="col-6">'+
 								'<label for="Sitter">Sitter</label>'+
@@ -907,7 +1132,7 @@ app = {
 								   '</div>'+
 							'</div>'+
 							'<div>'+
-								 '<button type="button"  data-indivne="false" onclick="app.saveEditables()" class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-check"></i>Save Changes</button>'+
+								 '<button type="button"  data-indivne="false" onclick="app.saveEditables()" class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-check"></i>Save</button>'+
 								 '<button type="button"  data-inline="false" onclick="app.cancelEditables()"   class="col-6 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-times"></i>Cancel</button>'+
 							
 							'</div>'+
@@ -919,6 +1144,13 @@ app = {
 				$.mobile.navigate(app.config.profile);
 				$.mobile.loading("hide");
 				$('.ui-panel-dismiss').hide();
+				 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+					 }else{
+						  $('.myjobs').hide();
+						   $('.myappliactions').show();
+					 }
 			}).fail(function (response) {
 				$.mobile.loading("hide");
 				$('.ui-panel-dismiss').hide();
@@ -961,7 +1193,24 @@ app = {
 		$('.ui-panel-dismiss').hide();
 		return false;
 		}
-	
+		my_job_date = $(app.config.singlejobsDetail).find('#EJ-job_date').val();
+		if(! my_job_date ){
+		$("html, body").animate({ scrollTop: "0" });
+		$('.anErrorOccure').show();
+		$('.anErrorOccure p').html("Job date could not be empty.");
+	    $(".anErrorOccure").delay(3000).fadeOut("slow");
+		$('.ui-panel-dismiss').hide();
+		return false;
+		}
+		my_job_time = $(app.config.singlejobsDetail).find('#EJ-job_time').val();
+		if(! my_job_time ){
+		$("html, body").animate({ scrollTop: "0" });
+		$('.anErrorOccure').show();
+		$('.anErrorOccure p').html("Job title could not be empty.");
+	    $(".anErrorOccure").delay(3000).fadeOut("slow");
+		$('.ui-panel-dismiss').hide();
+		return false;
+		}
 		my_job_discription = $(app.config.singlejobsDetail).find('#EJ-description').val();
 		if(! my_job_discription ){
 		$("html, body").animate({ scrollTop: "0" });
@@ -1003,6 +1252,8 @@ app = {
 				
 				name               : my_job_name ,
 				description : my_job_discription ,
+				job_date : my_job_date,
+				job_time : my_job_time
 				
 			}) 
 		}).success(function (data) {
@@ -1027,6 +1278,13 @@ app = {
 			$.mobile.loading("hide");
 			$('.ui-panel-dismiss').hide();
 			}
+			 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+			 }else{
+				  $('.myjobs').hide();
+				   $('.myappliactions').show();
+			 }
 		}).fail(function (jqXHR, textStatus, errorThrown, response, responseText) {
 		});
 	  
@@ -1073,12 +1331,16 @@ app = {
 		}
 		my_type = $(app.config.profile).find('input:radio[name=radio-group-4]:checked').val();
 		if(! my_type ){
+		
 		$("html, body").animate({ scrollTop: "0" });
 		$('.anErrorOccure').show();
 		$('.anErrorOccure p').html("Please Select Type .");
 	    $(".anErrorOccure").delay(3000).fadeOut("slow");
 		$('.ui-panel-dismiss').hide();
 		return false;
+		}
+		if(my_type){
+			app.setCookie('userType',my_type , '30');
 		}
 					
 		$.mobile.loading("show", {
@@ -1140,6 +1402,13 @@ app = {
 			$.mobile.loading("hide");
 			$('.ui-panel-dismiss').hide();
 			}
+			 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+			 }else{
+				  $('.myjobs').hide();
+				   $('.myappliactions').show();
+			 }				
 		}).fail(function (jqXHR, textStatus, errorThrown, response, responseText) {
 		});
 	  
@@ -1231,8 +1500,41 @@ app = {
 	loadUserProfile: function(){
 			$.mobile.navigate(app.config.profile);
 	},
+	renderAddjob: function(){
+		
+		template = '<form name="addjob">'+
+						'<div class="fieldcontain">'+
+						  '<input type="text" class="input-lovely" id="job_name" placeholder="Job Title/Name" value="'+ app.getCookie('userName')+'">'+
+						'</div>'+
+						'<div class="fieldcontain">'+
+						  '<input type="date" class="input-lovely" id="job_date" placeholder="Job date">'+
+						'</div>'+
+						'<div class="fieldcontain">'+
+						  '<input type="time" class="input-lovely" id="job_time" placeholder="Job time">'+
+						'</div>'+
+						'<div class="fieldcontain">'+
+						  '<input type="text" class="input-lovely" id="job_discription" placeholder="Job discription">'+
+						'</div>'+
+						'<div>'+
+						  '<br><button type="button" data-inline="false" onclick="app.addUserjob()" class="col-12 ui-btn-deep ui-btn-active ui-btn ui-shadow ui-corner-all"><i class="lIcon fa fa-floppy-o"></i>Save New Job</button>'+
+						'</div>'+
+					'</form>';
+			data ="";
+			 if(app.getCookie('userType') == 'Family'){
+				 $('.myappliactions').hide();
+				  $('.myjobs').show();
+			 }else{
+				  $('.myjobs').hide();
+				   $('.myappliactions').show();
+			 }
+			app.renderTemplates(template, '#jobs-add', data);
+			$.mobile.navigate(app.config.addjob);
+		
+		
+	},
 	addNewJob: function(){
 		$.mobile.navigate(app.config.addjob);
+		
 	},
 }
 
@@ -1452,8 +1754,8 @@ $(document).on('pagebeforeshow', app.config.loginPage, function () {
 	
 	$(app.config.loginPage).find('#forget').unbind("click");
 	$(app.config.loginPage).find('#forget').bind("click", function (event) {
-		app.showforgetpage();
-		//$.mobile.navigate(app.config.forgotPage);
+		//app.showforgetpage();
+		$.mobile.navigate(app.config.forgotPage);
 	}); 
 	
 	$(app.config.loginPage).find('#register').unbind("click");
@@ -1470,13 +1772,21 @@ $(document).on('pagebeforeshow', app.config.loginPage, function () {
 
 });
 
-
+$(document).on('pagebeforeshow', app.config.addjob, function () {
+	app.renderAddjob();
+	
+});
 $(document).on('pagebeforeshow', app.config.jobsPage, function () {
 	app.jobsList();
 	
 });
 $(document).on('pagebeforeshow', app.config.alljobsPage, function () {
 	app.alljobsList();
+	
+	
+});
+$(document).on('pagebeforeshow', app.config.applicationsPage, function () {
+	app.myApplications();
 	
 	
 });
@@ -1500,9 +1810,12 @@ $(document).on('pagebeforeshow', app.config.homePage, function () {
 });
 
 $(document).on('pagebeforeshow', app.config.forgotPage, function () {
-	$(app.config.homePage).find('#forgot-send').unbind("click");
-	$(app.config.homePage).find('#forgot-send').one("click", function (event) {
-		$(this).unbind(event);
+	$(app.config.forgotPage).find('#login_hook').bind("click", function () {
+		$.mobile.navigate(app.config.loginPage);		
+	}); 
+	//$(app.config.homePage).find('#forgot-send').unbind("click");
+	$(app.config.forgotPage).find('#forgot-send').on("click", function (event) {
+		//$(this).unbind(event);
 		app.forgotSend();
 		
 	});
